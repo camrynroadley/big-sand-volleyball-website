@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Respect",
+        "description": "We expect respect for coaches, teammates and self. We build confidence and develop social skills beneficial across all activities.",
+        "icon": "HandshakeIcon"
+    },
+        {
+        "name": "Work Ethic",
+        "description": "We foster a culture of hard work. We understand that improvement takes time and the only way to improve is through practice.",
+            "icon": "SportsVolleyballIcon"
+    },
+        {
+        "name": "Fun",
+        "description": "We are active in a fun, social environment. We build lifelong friendships and foster a love for the game of volleyball.",
+            "icon": "AutoAwesomeIcon"
+    }
+]
