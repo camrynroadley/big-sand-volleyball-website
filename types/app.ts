@@ -1,12 +1,12 @@
 
 export interface Program {
-    slug: string,
+    id: string,
     title: string,
     description: string,
     dateRange: string,
     timeRange: string,
     location: string,
-    who: string,
+    target: string,
     cap: number,
     level: string,
     cost: string,

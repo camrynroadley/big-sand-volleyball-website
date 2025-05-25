@@ -1,8 +1,13 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import data from "../../stubs/coachesData.json";
+import { Coach } from "../../../types/app";
 
-const Accordion: React.FC = () => {
+interface AccordionProps {
+  coaches: Coach[],
+}
+
+const Accordion = ({ coaches }: AccordionProps) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleItem = (index: number) => {
@@ -11,7 +16,7 @@ const Accordion: React.FC = () => {
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-2">
-      {data.map((coach, index) => {
+      {coaches.map((coach, index) => {
         const isOpen = openIndex === index;
         return (
           <div

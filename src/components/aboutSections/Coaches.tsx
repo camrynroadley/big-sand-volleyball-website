@@ -1,8 +1,14 @@
 import GradientText from "../ui/GradientText";
 import Accordion from "../ui/Accordion";
 import FadeInOnScroll from "../ui/FadeInOnScroll";
+import { Coach } from "../../../types/app";
 
-const Coaches = () => {
+
+interface CoachesProps {
+  coaches: Coach[],
+}
+
+const Coaches = ({ coaches }: CoachesProps) => {
   return (
     <section>
         <section className="max-w-6xl mx-auto px-4 py-12">
@@ -22,7 +28,7 @@ const Coaches = () => {
             </div>
           </div>
         </section>
-      <Accordion />
+      <Accordion coaches={coaches} />
     </section>
   );
 };

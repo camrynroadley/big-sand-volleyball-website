@@ -1,14 +1,16 @@
-"use client";
-
-import { useParams } from "next/navigation";
+import { createClient } from '@/utils/supabase/server'
 import data from "../../../stubs/programsData.json";
 import { Program } from "../../../../types/app";
 import Hero from "@/components/programSections/Hero";
 import Form from "@/components/programSections/Form";
 import Information from "@/components/programSections/Information";
 
-export default function ProgramDetail() {
-  const params = useParams();
+const ProgramDetail = async ({ params }) => {
+  // const params = useParams();
+
+   const supabase = await createClient();
+  const { data: programs } = await supabase.from("big_sand_programs").select();
+  console.log('*** programs: ', programs);
 
   // Find corresponding data
   const programData: Program | undefined = data.find(
@@ -27,3 +29,5 @@ export default function ProgramDetail() {
     </>
   );
 }
+
+export default ProgramDetail;
