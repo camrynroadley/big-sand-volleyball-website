@@ -7,11 +7,11 @@ interface BlurFadeInWrapperProps {
   delay?: number; // delay in milliseconds
 }
 
-export const BlurFadeInWrapper: React.FC<BlurFadeInWrapperProps> = ({
+export const BlurFadeInWrapper = ({
   children,
   className = "",
   delay = 0,
-}) => {
+}: BlurFadeInWrapperProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 

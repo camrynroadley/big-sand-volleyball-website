@@ -1,16 +1,15 @@
-
 interface ProgramInfoTextProps {
-    label: string;
-    info: string;
+  label: string;
+  info: string;
 }
 
 const ProgramInfoText = ({ label, info }: ProgramInfoTextProps) => {
-    return (
-        <>
-            <p className="text-sm text-[#750000] font-semibold">{label}</p>
-            <p className="text-lg mb-4">{info}</p>
-        </>
-    )
-}
+  return (
+    <div className="border rounded-sm p-6 mb-4">
+      <p className="text-sm text-[#DF0000] font-semibold tracking-tight">{label}</p>
+      <p className="text-lg tracking-tight">{info}</p>
+    </div>
+  );
+};
 
 export default ProgramInfoText;

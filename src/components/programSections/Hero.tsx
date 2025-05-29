@@ -1,19 +1,29 @@
 import { JSX } from "react";
+import { Program } from "../../../types/app";
 
 interface HeroProps {
-  title: string;
-  description: string;
+  program: Program;
 }
 
-const Hero = ({ title, description }: HeroProps): JSX.Element => {
+const Hero = ({ program }: HeroProps): JSX.Element => {
   return (
-    <section className="bg-[#f5f5f5] py-16 px-4 text-center">
-      <h2 className="text-6xl font-semibold text-black mt-24 mb-4">{title}</h2>
-      <p className="text-lg md:text-xl max-w-2xl mb-4 mx-auto">{description}</p>
-      <button className="relative overflow-hidden px-6 py-2 rounded-full font-semibold text-white bg-[#7E0000] group cursor-pointer">
-        <span className="relative z-10">Sign up now</span>
-        <div className="absolute inset-0 bg-red-700 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-out z-0" />
-      </button>
+    <section className="grid grid-cols gap-8 max-w-xs md:max-w-5xl mx-auto mt-[12%]">
+      <h1 className="text-6xl font-semibold text-black">{program.title}</h1>
+      <div className="grid grid-cols-1 mx-auto ">
+        {program.sessions.length === 1 ? (
+          <p>{`${program.sessions[0].date} ◦ ${program.sessions[0].time}`}</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+            {program.sessions.map((session) => (
+              <div key={`session-${session.id}`}>
+                <div className="inline-block bg-black text-white font-semibold text-sm px-2 py-1/2 rounded-sm">{`Session ${session.id}`}</div>
+                <p className="font-medium tracking-tight">{session.date}</p>
+                <p className="font-medium tracking-tight">{session.time}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 };

@@ -1,33 +1,34 @@
-import { createClient } from '@/utils/supabase/server'
-import data from "../../../stubs/programsData.json";
+"use client";
+import { usePrograms } from "@/context/ProgramContext";
 import { Program } from "../../../../types/app";
 import Hero from "@/components/programSections/Hero";
 import Form from "@/components/programSections/Form";
 import Information from "@/components/programSections/Information";
+import { useParams } from "next/navigation";
 
-const ProgramDetail = async ({ params }) => {
-  // const params = useParams();
+const ProgramDetail = () => {
+  const params = useParams();
+  const programs: Program[] | undefined = usePrograms();
 
-   const supabase = await createClient();
-  const { data: programs } = await supabase.from("big_sand_programs").select();
-  console.log('*** programs: ', programs);
-
+  let programData: Program | undefined;
   // Find corresponding data
-  const programData: Program | undefined = data.find(
-    (program) => program.slug === params.slug
-  );
+  if (programs) {
+    programData = programs.find(
+      (program) => program.slug === params.slug
+    );
+  }
 
   return (
     <>
       {programData && (
         <>
-          <Hero {...programData} />
+          <Hero program={programData} />
           <Information program={programData} />
           <Form />
         </>
       )}
     </>
   );
-}
+};
 
 export default ProgramDetail;

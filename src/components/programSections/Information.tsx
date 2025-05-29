@@ -7,18 +7,16 @@ interface InformationProps {
 
 const Information = ({ program }: InformationProps) => {
   return (
-    <section className="max-w-5xl mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <section className="max-w-xs md:max-w-5xl mx-auto py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <h2 className="text-4xl font-semibold">Details</h2>
+          <ProgramInfoText label="WHO" info={program.target} />
+          <ProgramInfoText label="COST" info={program.cost} />
+          <ProgramInfoText label="HOW" info={program.payment_instructions} />
         </div>
         <div>
-          <ProgramInfoText label="WHEN" info={program.dateRange} />
           <ProgramInfoText label="WHERE" info={program.location} />
-          <ProgramInfoText label="WHO" info={program.who} />
           <ProgramInfoText label="LEVEL" info={program.level} />
-          <ProgramInfoText label="COST" info={program.cost} />
-          <ProgramInfoText label="HOW" info={program.paymentInstructions} />
         </div>
       </div>
     </section>

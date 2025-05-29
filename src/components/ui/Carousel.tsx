@@ -19,24 +19,6 @@ export interface CarouselProps {
   round?: boolean;
 }
 
-const DEFAULT_ITEMS = [
-  {
-    title: "Text Animations",
-    description: "Cool text animations for your projects.",
-    id: 1,
-  },
- {
-    title: "Animations",
-    description: "Smooth animations for your projects.",
-    id: 2,
-  },
-    {
-    title: "Components",
-    description: "Reusable components for your projects.",
-    id: 3,
-  }
-];
-
 const DRAG_BUFFER = 0;
 const VELOCITY_THRESHOLD = 500;
 const GAP = 16;
@@ -44,7 +26,7 @@ const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
 
 export default function Carousel({
   items = DEFAULT_ITEMS,
-  baseWidth = 500,
+  baseWidth = 800,
   autoplay = false,
   autoplayDelay = 3000,
   pauseOnHover = false,

@@ -15,7 +15,7 @@ const Accordion = ({ coaches }: AccordionProps) => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-2">
+    <div className="w-full max-w-2xl mx-auto space-y-2 tracking-tight">
       {coaches.map((coach, index) => {
         const isOpen = openIndex === index;
         return (
@@ -43,7 +43,7 @@ const Accordion = ({ coaches }: AccordionProps) => {
                   isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="px-6 pb-4 pt-0 text-gray-600">
+                <div className="px-6 pb-4 pt-0 text-gray-600 text-base">
                   {coach.description}
                 </div>
               </div>

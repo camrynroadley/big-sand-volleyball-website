@@ -6,12 +6,39 @@ import clsx from "clsx";
 import GradientText from "./GradientText";
 import Logo from "../../../public/images/logo.png";
 import Image from "next/image";
-import data from "../../stubs/programsData.json";
+import { Program } from "../../../types/app";
+import { usePrograms } from "@/context/ProgramContext";
+import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
-export default function Navbar() {
+const Navbar = () => {
+  const programs: Program[] | undefined = usePrograms();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
+      if (
+        isMobileOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsMobileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+    };
+  }, [isMobileOpen]);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 10);
@@ -27,7 +54,7 @@ export default function Navbar() {
   const handleProgramsLeave = () => {
     closeTimeoutRef.current = setTimeout(() => {
       setIsProgramsOpen(false);
-    }, 200); // Delay close by 200ms
+    }, 200);
   };
 
   return (
@@ -39,12 +66,11 @@ export default function Navbar() {
     >
       <div
         className={clsx(
-          "mx-auto max-w-6xl rounded-[60] py-4 px-6 backdrop-blur-md flex items-center justify-between transition-all duration-300",
+          "mx-auto max-w-6xl rounded-[60px] py-4 px-6 backdrop-blur-md flex items-center justify-between transition-all duration-300",
           isScrolled && "bg-white shadow-md border bg-white/80 border-gray-200"
         )}
       >
-        {/* Logo */}
-        <Link href="/" className="text-xl font-bold">
+        <Link href="/">
           <Image
             className="w-12 h-12"
             src={Logo}
@@ -52,11 +78,9 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* Center nav links */}
-        <div className="hidden md:flex gap-8 text-sm font-medium absolute left-1/2 transform -translate-x-1/2">
+        {/* Desktop Nav */}
+        <div className="hidden md:flex gap-8 text-sm font-medium absolute left-1/2 transform -translate-x-1/2 tracking-tight">
           <Link href="/about">About</Link>
-
-          {/* Dropdown Wrapper */}
           <div
             className="relative"
             onMouseEnter={handleProgramsEnter}
@@ -65,17 +89,15 @@ export default function Navbar() {
             <button className="hover:text-black focus:outline-none">
               Programs
             </button>
-
-            {/* Dropdown Menu */}
-            {isProgramsOpen && (
+            {programs && isProgramsOpen && (
               <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
                 <ul
                   className="py-2 text-sm"
                   onMouseEnter={handleProgramsEnter}
                   onMouseLeave={handleProgramsLeave}
                 >
-                  {data.map((program) => (
-                    <li key={`li-program-${program.slug}`}>
+                  {programs.map((program) => (
+                    <li key={`program-${program.slug}`}>
                       <Link
                         href={`programs/${program.slug}`}
                         className="block px-4 py-2 hover:bg-gray-100"
@@ -88,12 +110,15 @@ export default function Navbar() {
               </div>
             )}
           </div>
-
           <Link href="/contact">Contact</Link>
         </div>
 
-        {/* Clothing button */}
-        <Link href="/clothing" className="">
+        {/* Clothing Link (Desktop only) */}
+        <Link
+          href="https://bigsand.ca/home-%26-services"
+          target="_blank"
+          className="hidden md:block"
+        >
           <GradientText
             colors={["#750000", "#FF0000"]}
             animationSpeed={3}
@@ -102,7 +127,71 @@ export default function Navbar() {
             <p className="text-sm font-semibold">Clothing</p>
           </GradientText>
         </Link>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={() => setIsMobileOpen(true)}
+          className="md:hidden z-50 p-2 text-black"
+        >
+          <Menu size={24} />
+        </button>
       </div>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {isMobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden fixed inset-0 bg-white/95 backdrop-blur-md z-40"
+            ref={mobileMenuRef}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setIsMobileOpen(false)}
+              className="absolute top-6 right-6 text-black z-50 p-2"
+            >
+              <X size={28} />
+            </button>
+
+            <div className="flex flex-col items-center justify-center h-full gap-4 text-base font-semibold text-black px-6 tracking-tight">
+              <Link href="/about" onClick={() => setIsMobileOpen(false)}>
+                About
+              </Link>
+              {programs &&
+                programs.map((program) => (
+                  <Link
+                    key={`mobile-program-${program.slug}`}
+                    href={`programs/${program.slug}`}
+                    onClick={() => setIsMobileOpen(false)}
+                  >
+                    {program.title}
+                  </Link>
+                ))}
+              <Link href="/contact" onClick={() => setIsMobileOpen(false)}>
+                Contact
+              </Link>
+              <Link
+                href="https://bigsand.ca/home-%26-services"
+                target="_blank"
+                onClick={() => setIsMobileOpen(false)}
+              >
+                <GradientText
+                  colors={["#750000", "#FF0000"]}
+                  animationSpeed={3}
+                  showBorder={true}
+                >
+                  <p className="text-base font-semibold">Clothing</p>
+                </GradientText>
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
-}
+};
+
+export default Navbar;

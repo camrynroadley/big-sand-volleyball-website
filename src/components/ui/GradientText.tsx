@@ -14,69 +14,43 @@ const gradientAnimation = `
 `;
 
 const styles = {
-  container: {
-  position: "relative",
-  display: "inline-flex",
-    maxWidth: "fit-content",
-    margin: "0 auto",
-    alignItems: "center",
-    justifyContent: "center",
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
-    cursor: "pointer",
-    overflow: "hidden",
-    transition: "box-shadow 0.5s ease",
-  },
-  gradientBorder: {
-    position: "absolute",
-    inset: 0,
-    zIndex: 0,
-    pointerEvents: "none",
-    borderRadius: 20,
+  wrapper: {
+    display: "inline-block",
+    padding: 1, // Border thickness
+    borderRadius: 9999,
     background: `linear-gradient(270deg, ${gradientColors.join(", ")})`,
     backgroundSize: "300% 100%",
     animation: "gradientShift 4s linear infinite",
   },
-  innerBlack: {
-    position: "absolute",
-    borderRadius: 20,
+  inner: {
+    padding: "3px 10px", // Padding around text
+    borderRadius: 9999,
     backgroundColor: "white",
-    width: "calc(100% - 2px)",
-    height: "calc(100% - 2px)",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: -1,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  gradientText: {
-    position: "relative",
-    zIndex: 2,
-    color: "transparent",
+  text: {
     background: `linear-gradient(270deg, ${gradientColors.join(", ")})`,
     backgroundSize: "300% 100%",
-    animation: "gradientShift 8s linear infinite",
+    animation: "gradientShift 4s linear infinite",
     backgroundClip: "text",
     WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent", // <= this line is crucial
+    WebkitTextFillColor: "transparent",
+    fontWeight: 500,
+    letterSpacing: "-0.5px"
   },
 };
 
-export default function GradientText({
-  children,
-  showBorder = false,
-  className = "",
-}) {
+export default function AnimatedGradientTag({ children }) {
   return (
     <>
       <style>{gradientAnimation}</style>
-      <span style={styles.container} className={className}>
-        {showBorder && (
-          <div style={styles.gradientBorder}>
-            <div style={styles.innerBlack} />
-          </div>
-        )}
-        <span style={styles.gradientText}>{children}</span>
-      </span>
+      <div style={styles.wrapper}>
+        <div style={styles.inner}>
+          <span style={styles.text}>{children}</span>
+        </div>
+      </div>
     </>
   );
 }

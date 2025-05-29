@@ -1,48 +1,111 @@
-import { GlowEffect } from "./glow-effect";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { ShimmerButton } from "./shimmer-button";
+'use client';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { CheckCircle, XCircle } from 'lucide-react';
+import { EmailFormData } from '../../../types/app';
 
-const EmailForm: React.FC = () => {
+export const EmailForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<EmailFormData>();
+  const [status, setStatus] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const onSubmit = async (data: EmailFormData) => {
+    setStatus('');
+    setShowSuccess(false);
+
+    const res = await fetch('/api/subscription', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      setStatus('Thanks for signing up!');
+      setShowSuccess(true);
+      reset();
+      setTimeout(() => setShowSuccess(false), 5000);
+    } else {
+      setStatus(result.error || 'Something went wrong.');
+    }
+  };
+
   return (
-    <form className="mt-6 flex justify-center">
-      <div className="relative w-full max-w-xl">
+    <div className="relative z-50 mt-6 w-full max-w-md mx-auto">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex items-center rounded-full overflow-hidden border border-black bg-white/10 backdrop-blur"
+      >
         <input
           type="email"
           placeholder="Your email address"
-          className="w-full px-6 py-3 pr-40 rounded-full border border-gray-300 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#800000] text-xs"
+          {...register('email', {
+            required: 'Email is required',
+            pattern: {
+              value: /^\S+@\S+$/i,
+              message: 'Invalid email',
+            },
+          })}
+          className="flex-1 bg-transparent px-4 py-2 text-black text-xs placeholder-black focus:outline-none"
         />
-        {/* <div className="absolute top-1/2 right-2 -translate-y-1/2 whitespace-nowrap">
-          <div className="z-10 flex items-center justify-center">
-            <ShimmerButton className="shadow-2xl">
-              <span className="text-center text-xs font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10">
-                Shimmer Button
-              </span>
-            </ShimmerButton>
-          </div>
-        </div> */}
-        {/* <div className="absolute top-1/2 right-2 -translate-y-1/2 whitespace-nowrap">
-          <div className="relative">
-            <GlowEffect
-              colors={["#FF5733", "#33FF57", "#3357FF", "#F1C40F"]}
-              mode="colorShift"
-              blur="soft"
-              duration={3}
-              scale={0.9}
-            />
-            <button className="relative inline-flex items-center gap-1 rounded-full bg-zinc-950 px-2.5 py-1 text-xs text-zinc-50 outline outline-1 outline-[#fff2f21f]">
-              Sign up for mailing list <ArrowForwardIcon fontSize="small" />
-            </button>
-          </div>
-        </div> */}
         <button
           type="submit"
-          className="absolute top-1/2 right-2 -translate-y-1/2 bg-[#000000] hover:bg-red-900 text-white px-3 py-2 rounded-full text-xs font-semibold shadow-md transition whitespace-nowrap"
+          disabled={isSubmitting}
+          className="bg-black text-white px-4 py-2 font-medium text-xs flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:bg-red-200 hover:text-black min-w-[90px]"
         >
-          Submit
+          {isSubmitting ? (
+            <svg
+              className="w-4 h-4 animate-spin text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              ></path>
+            </svg>
+          ) : (
+            'Sign up'
+          )}
         </button>
-      </div>
-    </form>
-  );
-};
+      </form>
 
-export default EmailForm;
+      {/* Styled error popup */}
+      {errors.email && (
+        <div className="mt-4 mx-auto flex items-center gap-2 rounded-lg border border-red-500 bg-red-100 px-4 py-2 text-sm text-red-700 shadow-md w-fit">
+          <XCircle className="w-4 h-4 text-red-600" />
+          <span>{errors.email.message}</span>
+        </div>
+      )}
+
+      {/* Success popup */}
+      {showSuccess && (
+        <div className="mt-4 mx-auto flex items-center gap-2 rounded-lg border border-green-500 bg-green-100 px-4 py-2 text-sm text-green-700 shadow-md w-fit">
+          <CheckCircle className="w-4 h-4 text-green-600" />
+          <span>{status}</span>
+        </div>
+      )}
+
+      {/* Fallback message (non-form error) */}
+      {!showSuccess && status && !errors.email && (
+        <p className="mt-2 text-xs text-black text-center">{status}</p>
+      )}
+    </div>
+  );
+}
