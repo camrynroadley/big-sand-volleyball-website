@@ -64,14 +64,7 @@ const SignUpFormContent: FormInput[] = [
     options: ["4", "5", "6", "7", "8", "9", "10", "11", "12"],
   },
   { id: "school", label: "School", type: "text" },
-  {
-    id: "sessions",
-    label: "Select Sessions",
-    type: "checkbox-group",
-    options: ["Session 1", "Session 2", "Session 3", "Session 4", "Session 5"],
-    error: "Please select at least one session",
-    required: true,
-  },
+  { id: "shirt_size", label: "T-Shirt Size (Women's)", type: "text" },
   {
     id: "health_info",
     label: "Any allergies or past injuries we should be aware of?",

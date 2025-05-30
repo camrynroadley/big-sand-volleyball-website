@@ -24,7 +24,7 @@ const ProgramDetail = () => {
         <>
           <Hero program={programData} />
           <Information program={programData} />
-          <Form />
+          <Form program={programData} />
         </>
       )}
     </>

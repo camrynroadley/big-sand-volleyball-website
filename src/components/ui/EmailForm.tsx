@@ -4,7 +4,14 @@ import { useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
 import { EmailFormData } from '../../../types/app';
 
-export const EmailForm = () => {
+interface EmailFormProps {
+  formClassName?: string,
+  inputClassName?: string,
+  buttonClassName?: string,
+  notificationClassName?: string;
+}
+
+export const EmailForm = ({ formClassName, inputClassName, buttonClassName, notificationClassName }: EmailFormProps) => {
   const {
     register,
     handleSubmit,
@@ -27,7 +34,7 @@ export const EmailForm = () => {
     const result = await res.json();
 
     if (res.ok) {
-      setStatus('Thanks for signing up!');
+      setStatus('');
       setShowSuccess(true);
       reset();
       setTimeout(() => setShowSuccess(false), 5000);
@@ -40,7 +47,7 @@ export const EmailForm = () => {
     <div className="relative z-50 mt-6 w-full max-w-md mx-auto">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex items-center rounded-full overflow-hidden border border-black bg-white/10 backdrop-blur"
+        className={`flex items-center rounded-full overflow-hidden ${formClassName}`}
       >
         <input
           type="email"
@@ -52,12 +59,12 @@ export const EmailForm = () => {
               message: 'Invalid email',
             },
           })}
-          className="flex-1 bg-transparent px-4 py-2 text-black text-xs placeholder-black focus:outline-none"
+          className={`flex-1 px-4 py-2 text-xs focus:outline-none ${inputClassName}`}
         />
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-black text-white px-4 py-2 font-medium text-xs flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:bg-red-200 hover:text-black min-w-[90px]"
+          className={`px-4 py-2 font-medium text-xs flex items-center justify-center gap-2 transition-all duration-300 ease-in-out hover:cursor-pointer min-w-[90px] ${buttonClassName}`}
         >
           {isSubmitting ? (
             <svg
@@ -86,25 +93,17 @@ export const EmailForm = () => {
         </button>
       </form>
 
-      {/* Styled error popup */}
-      {errors.email && (
-        <div className="mt-4 mx-auto flex items-center gap-2 rounded-lg border border-red-500 bg-red-100 px-4 py-2 text-sm text-red-700 shadow-md w-fit">
-          <XCircle className="w-4 h-4 text-red-600" />
-          <span>{errors.email.message}</span>
-        </div>
-      )}
-
       {/* Success popup */}
       {showSuccess && (
-        <div className="mt-4 mx-auto flex items-center gap-2 rounded-lg border border-green-500 bg-green-100 px-4 py-2 text-sm text-green-700 shadow-md w-fit">
+        <div className="mt-4 mx-auto flex items-center gap-2 rounded-lg border border-green-500 bg-green-100 px-4 py-2 text-xs text-green-700 shadow-md w-fit">
           <CheckCircle className="w-4 h-4 text-green-600" />
-          <span>{status}</span>
+          <span>Thanks for signing up for the Big Sand Volleyball Club mailing list</span>
         </div>
       )}
 
       {/* Fallback message (non-form error) */}
       {!showSuccess && status && !errors.email && (
-        <p className="mt-2 text-xs text-black text-center">{status}</p>
+        <p className={`mt-2 text-xs text-center ${notificationClassName}`}>{status}</p>
       )}
     </div>
   );

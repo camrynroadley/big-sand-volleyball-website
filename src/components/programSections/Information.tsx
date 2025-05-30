@@ -7,7 +7,7 @@ interface InformationProps {
 
 const Information = ({ program }: InformationProps) => {
   return (
-    <section className="max-w-xs md:max-w-5xl mx-auto py-8">
+    <section className="w-full max-w-5xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <ProgramInfoText label="WHO" info={program.target} />

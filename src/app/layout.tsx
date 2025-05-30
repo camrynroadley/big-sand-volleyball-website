@@ -3,7 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { createClient } from "@/utils/supabase/server";
 import Navbar from "@/components/ui/Navbar";
-import Footer from "@/components/ui/Footer";
+import { Footer } from "@/components/ui/Footer";
 import { ProgramProvider } from "../context/ProgramContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({

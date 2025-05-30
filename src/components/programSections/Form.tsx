@@ -1,12 +1,17 @@
 "use client";
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import SignUpFormContent from "./helpers/SignUpFormContent";
 import { Loader2, CheckCircle } from "lucide-react"; // Optional: spinner & success icon
+import { Program } from "../../../types/app";
 
 type FormValues = Record<string, string>;
 
-const Form = () => {
+interface FormProps {
+  program: Program;
+}
+
+const Form = ({ program }: FormProps) => {
   const {
     register,
     handleSubmit,
@@ -14,13 +19,30 @@ const Form = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  useEffect(() => {
+    SignUpFormContent.push({
+      id: "sessions",
+      label: "Select sessions:",
+      type: "checkbox-group",
+      options: program.sessions.map((session, index) => {
+        if (session.isFull) {
+          return `Waitlist Session ${index}`;
+        } else {
+          return `Session ${index}`;
+        }
+      }),
+      error: "Please select at least one session",
+      required: true,
+    });
+  }, []);
+
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
-    setStatus('');
+    setStatus("");
     setShowSuccess(false);
 
     const formData = { ...data, program_slug: "test" };
@@ -35,7 +57,8 @@ const Form = () => {
       const result = await res.json();
 
       if (res.ok) {
-        const SUCCESS_STATUS = "Thank you for signing up! Please check your email for a confirmation. We will reach out to you with additional information and payment instructions."
+        const SUCCESS_STATUS =
+          "Thank you for signing up! Please check your email for a confirmation. We will reach out to you with additional information and payment instructions.";
         setStatus(SUCCESS_STATUS);
         setShowSuccess(true);
         reset();
@@ -52,11 +75,20 @@ const Form = () => {
 
   return (
     <section className="bg-[#f5f5f5] py-16 px-4">
-      <p className="text-[#DF0000] text-sm font-semibold text-center">Ready to join?</p>
-      <h2 className="text-5xl font-semibold text-black mb-4 text-center">Sign up now</h2>
-      <p className="text-sm text-center mb-8"><i>* indicates a required field</i></p>
+      <p className="text-[#DF0000] text-sm font-semibold text-center">
+        Ready to join?
+      </p>
+      <h2 className="text-5xl font-semibold text-black mb-4 text-center">
+        Sign up now
+      </h2>
+      <p className="text-sm text-center mb-8">
+        <i>* indicates a required field</i>
+      </p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-3xl mx-auto">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 max-w-3xl mx-auto"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {SignUpFormContent.map((input) => {
             const isTextarea = input.type === "textarea";
@@ -69,7 +101,9 @@ const Form = () => {
                 key={input.id}
                 className={isTextarea || isCheckboxGroup ? "md:col-span-2" : ""}
               >
-                <label className="block mb-1 font-medium text-sm">{input.label}</label>
+                <label className="block mb-1 font-medium text-sm">
+                  {input.label}
+                </label>
 
                 {isTextarea ? (
                   <textarea
@@ -85,15 +119,22 @@ const Form = () => {
                     className="w-full p-2 border border-black rounded bg-white"
                     defaultValue=""
                   >
-                    <option value="" disabled>Select an option</option>
+                    <option value="" disabled>
+                      Select an option
+                    </option>
                     {input.options?.map((option) => (
-                      <option key={option} value={option}>{option}</option>
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
                     ))}
                   </select>
                 ) : isCheckboxGroup ? (
                   <div className="flex flex-wrap gap-4">
                     {input.options?.map((option) => (
-                      <label key={option} className="flex items-center space-x-2">
+                      <label
+                        key={option}
+                        className="flex items-center space-x-2"
+                      >
                         <input
                           type="checkbox"
                           value={option}

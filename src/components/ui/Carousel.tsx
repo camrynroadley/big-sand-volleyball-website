@@ -1,7 +1,6 @@
 import { JSX, useEffect, useState, useRef } from "react";
 import { motion, PanInfo, useMotionValue, useTransform } from "framer-motion";
 
-
 export interface CarouselItem {
   title: string;
   description: string;
@@ -25,16 +24,30 @@ const GAP = 16;
 const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
 
 export default function Carousel({
-  items = DEFAULT_ITEMS,
-  baseWidth = 800,
+  items,
+  baseWidth,
   autoplay = false,
   autoplayDelay = 3000,
   pauseOnHover = false,
   loop = false,
   round = false,
 }: CarouselProps): JSX.Element {
+  const [containerWidth, setContainerWidth] = useState<number>(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.offsetWidth);
+      }
+    };
+
+    handleResize(); // Set initially
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const containerPadding = 16;
-  const itemWidth = baseWidth - containerPadding * 2;
+  const itemWidth = containerWidth - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
 
   const carouselItems = loop ? [...items, items[0]] : items;
@@ -127,15 +140,11 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden p-4 ${
+      className={`relative overflow-hidden p-4 w-full md:w-[70%] ${
         round
           ? "rounded-full border border-white"
           : "rounded-[24px] border border-gray-300"
       }`}
-      style={{
-        width: `${baseWidth}px`,
-        ...(round && { height: `${baseWidth}px` }),
-      }}
     >
       <motion.div
         className="flex"
@@ -187,7 +196,7 @@ export default function Carousel({
           round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""
         }`}
       >
-        <div className="mt-4 flex justify-between">
+        <div className="mt-4 flex justify-between gap-x-3">
           {items.map((_, index) => (
             <motion.div
               key={index}

@@ -16,7 +16,7 @@ const Coaches = ({ coaches }: CoachesProps) => {
               Heights Collegiate volleyball alumni, in addition to parent
               coaches, who may not all be listed below."
       />
-      <Accordion coaches={coaches} />
+        <Accordion coaches={coaches} />
     </section>
   );
 };

@@ -1,8 +1,5 @@
-import data from "../../stubs/programsData.json";
-import GradientText from "../ui/GradientText";
+"use client";
 import ProgramCard from "../ui/ProgramCard";
-import SplitText from "../ui/SplitText";
-import ScrollReveal from "../ui/ScrollReveal";
 import FadeInOnScroll from "../ui/FadeInOnScroll";
 import Carousel from "../ui/Carousel";
 import SectionHeading from "../ui/SectionHeading";
@@ -24,18 +21,25 @@ const UpcomingPrograms = () => {
         <FadeInOnScroll delay={0.4}>
           <div className="flex justify-center">
             {programs.length === 1 ? (
-              <h1>test</h1>
+              <div className="md:max-w-3xl mx-auto">
+                <ProgramCard
+                  slug={programs[0].slug}
+                  title={programs[0].title}
+                  description={programs[0].description}
+                  imagePath={programs[0].image_name}
+                />
+              </div>
             ) : (
               <Carousel
                 items={programs.map((program, index) => {
-                  const { slug, title, description } = program;
+                  const { slug, title, description, image_name } = program;
                   return (
                     <ProgramCard
                       key={`program-card-${index}`}
                       slug={slug}
                       title={title}
                       description={description}
-                      imagePath="program_1.jpg"
+                      imagePath={image_name}
                     />
                   );
                 })}
