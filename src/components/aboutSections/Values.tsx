@@ -5,10 +5,10 @@ import {
   CardItem,
 } from "@/components/ui/FloatingCard";
 import data from "../../stubs/valuesData.json";
-import FadeInOnScroll from "../ui/FadeInOnScroll";
-import SectionHeading from "../ui/SectionHeading";
+import { FadeInOnScroll } from "../ui/FadeInOnScroll";
+import { SectionHeading } from "../ui/SectionHeading";
 
-const Values = () => {
+export const Values = () => {
   return (
     <section className="bg-[#f5f5f5] tracking-tight">
       <FadeInOnScroll>
@@ -55,5 +55,3 @@ const Values = () => {
     </section>
   );
 };
-
-export default Values;

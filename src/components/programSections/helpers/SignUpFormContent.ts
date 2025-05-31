@@ -1,6 +1,6 @@
 import { FormInput } from "../../../../types/app";
 
-const SignUpFormContent: FormInput[] = [
+export const SignUpFormContent: FormInput[] = [
   {
     id: "child_first_name",
     label: "Child First Name *",
@@ -71,5 +71,3 @@ const SignUpFormContent: FormInput[] = [
     type: "textarea",
   },
 ];
-
-export default SignUpFormContent;

@@ -1,15 +1,15 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import About1 from "../../../public/images/about_1.jpg";
 import About2 from "../../../public/images/about_2.jpg";
 import About3 from "../../../public/images/about_3.jpg";
 import { EmailForm } from "../ui/EmailForm";
-import FadeInOnScroll from "../ui/FadeInOnScroll";
+import { FadeInOnScroll } from "../ui/FadeInOnScroll";
 import { Spinner } from "../ui/Spinner";
-import BlurText from "../ui/BlurText";
+import { BlurText } from "../ui/BlurText";
 
-export default function Hero() {
+export const Hero = () => {
   const [imagesLoaded, setImagesLoaded] = useState(0);
 
   const handleImageLoad = () => {

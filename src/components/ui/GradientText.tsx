@@ -42,7 +42,7 @@ const styles = {
   },
 };
 
-export default function AnimatedGradientTag({ children }) {
+export const GradientText = ({ children }) => {
   return (
     <>
       <style>{gradientAnimation}</style>

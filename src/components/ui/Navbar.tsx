@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-import GradientText from "./GradientText";
+import { GradientText } from "../ui/GradientText";
 import Logo from "../../../public/images/logo.png";
 import Image from "next/image";
 import { Program } from "../../../types/app";
@@ -11,7 +11,7 @@ import { usePrograms } from "@/context/ProgramContext";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const Navbar = () => {
+export const Navbar = () => {
   const programs: Program[] | undefined = usePrograms();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
@@ -193,5 +193,3 @@ const Navbar = () => {
     </nav>
   );
 };
-
-export default Navbar;

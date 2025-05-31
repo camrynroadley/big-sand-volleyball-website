@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import SignUpFormContent from "./helpers/SignUpFormContent";
+import { SignUpFormContent } from "./helpers/SignUpFormContent";
 import { Loader2, CheckCircle } from "lucide-react"; // Optional: spinner & success icon
 import { Program } from "../../../types/app";
 
@@ -11,7 +11,7 @@ interface FormProps {
   program: Program;
 }
 
-const Form = ({ program }: FormProps) => {
+export const Form = ({ program }: FormProps) => {
   const {
     register,
     handleSubmit,
@@ -203,5 +203,3 @@ const Form = ({ program }: FormProps) => {
     </section>
   );
 };
-
-export default Form;

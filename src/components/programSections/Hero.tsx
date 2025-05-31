@@ -1,14 +1,14 @@
 import { Program } from "../../../types/app";
-import BlurText from "../ui/BlurText";
-import FadeInOnScroll from "../ui/FadeInOnScroll";
+import { BlurText } from "../ui/BlurText";
+import { FadeInOnScroll } from "../ui/FadeInOnScroll";
 
 interface HeroProps {
   program: Program;
 }
 
-const Hero = ({ program }: HeroProps) => {
+export const Hero = ({ program }: HeroProps) => {
   return (
-    <section className="grid grid-cols gap-8 w-full max-w-5xl mx-auto px-4 mt-[12%]">
+    <section className="grid grid-cols gap-8 w-full max-w-5xl mx-auto px-4 mt-[30%] md:mt-[12%]">
       <BlurText
         text={program.title}
         delay={100}
@@ -22,7 +22,7 @@ const Hero = ({ program }: HeroProps) => {
             <p className="font-medium text-lg">{`${program.sessions[0].date} ● ${program.sessions[0].time}`}</p>
           </FadeInOnScroll>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-1">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-1">
             {program.sessions.map((session, index) => (
               <FadeInOnScroll key={`session-${session.id}`} delay={index * 0.2}>
                 {session.isFull ? (
@@ -49,5 +49,3 @@ const Hero = ({ program }: HeroProps) => {
     </section>
   );
 };
-
-export default Hero;

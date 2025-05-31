@@ -1,12 +1,11 @@
 "use client";
-import HeroSection from "@/components/homeSections/Hero";
-import UpcomingPrograms from "@/components/homeSections/UpcomingPrograms";
-import Information from "@/components/homeSections/Information";
+import { Hero } from "@/components/homeSections/Hero";
+import { UpcomingPrograms } from "@/components/homeSections/UpcomingPrograms";
 
 const HomePage = () => {
   return (
     <>
-      <HeroSection />
+      <Hero />
       <UpcomingPrograms />
       {/* <Information /> */}
     </>

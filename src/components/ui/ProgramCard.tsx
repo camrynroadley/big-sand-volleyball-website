@@ -9,7 +9,7 @@ interface ProgramCardProps {
   imagePath: string;
 }
 
-const ProgramCard = ({
+export const ProgramCard = ({
   slug,
   title,
   description,
@@ -47,5 +47,3 @@ const ProgramCard = ({
     </div>
   );
 };
-
-export default ProgramCard;

@@ -7,7 +7,7 @@ interface CardWithArrowProps {
     pageLink: string,
 }
 
-const CardWithArrow= ({ name, pageLink }: CardWithArrowProps): JSX.Element => {
+export const CardWithArrow = ({ name, pageLink }: CardWithArrowProps): JSX.Element => {
   return (
     <>
       <Link
@@ -27,4 +27,3 @@ const CardWithArrow= ({ name, pageLink }: CardWithArrowProps): JSX.Element => {
   );
 }
 
-export default CardWithArrow;

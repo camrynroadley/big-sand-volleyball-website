@@ -1,15 +1,9 @@
-import SpotlightCard from "../ui/SpotlightCard";
-import BentoRight from "../../../public/images/bento_right.png";
-import BentoLeft from "../../../public/images/bento_left.png";
 import HomeInfoRight from '../../../public/images/home_info_1.png';
 import HomeInfoLeft from '../../../public/images/home_info_2.png';
 import Image from "next/image";
-import FadeInOnScroll from "../ui/FadeInOnScroll";
-import CardWithArrow from "../ui/CardWithArrow";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import Link from "next/link";
+import { FadeInOnScroll } from "../ui/FadeInOnScroll";
 
-const Bento = () => {
+export const Bento = () => {
   return (
     <div className="max-w-6xl mx-auto p-4 grid grid-cols-3 gap-4">
       <div className="col-span-2">
@@ -118,6 +112,3 @@ const Bento = () => {
     </div>
   );
 };
-
-export default Bento;
-

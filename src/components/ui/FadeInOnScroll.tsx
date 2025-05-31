@@ -7,7 +7,7 @@ interface FadeInOnScrollProps {
   duration?: number;
 }
 
-const FadeInOnScroll = ({
+export const FadeInOnScroll = ({
   children,
   delay = 0.1,
   duration = 0.6,
@@ -24,5 +24,3 @@ const FadeInOnScroll = ({
     </motion.div>
   );
 }
-
-export default FadeInOnScroll;

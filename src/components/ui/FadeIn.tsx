@@ -7,7 +7,7 @@ interface FadeInProps {
   duration?: number;
 }
 
-const FadeIn = ({
+export const FadeIn = ({
   children,
   delay = 0.1,
   duration = 0.6,
@@ -22,5 +22,3 @@ const FadeIn = ({
     </motion.div>
   );
 }
-
-export default FadeIn;

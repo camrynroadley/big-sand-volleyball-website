@@ -1,9 +1,4 @@
-import SpotlightCard from "../ui/SpotlightCard";
-import GradientText from "../ui/GradientText";
-import Bento from "./Bento";
-import FadeInOnScroll from "../ui/FadeInOnScroll";
-
-const Information = () => {
+export const Information = () => {
   return (
     <section className="bg-[white] py-16 px-4 tracking-tight">
       <section className="max-w-6xl mx-auto px-4 py-12">
@@ -26,5 +21,3 @@ const Information = () => {
     </section>
   );
 };
-
-export default Information;

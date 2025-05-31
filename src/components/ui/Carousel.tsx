@@ -23,7 +23,7 @@ const VELOCITY_THRESHOLD = 500;
 const GAP = 16;
 const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
 
-export default function Carousel({
+export const Carousel = ({
   items,
   baseWidth,
   autoplay = false,
@@ -31,7 +31,7 @@ export default function Carousel({
   pauseOnHover = false,
   loop = false,
   round = false,
-}: CarouselProps): JSX.Element {
+}: CarouselProps) => {
   const [containerWidth, setContainerWidth] = useState<number>(0);
 
   useEffect(() => {

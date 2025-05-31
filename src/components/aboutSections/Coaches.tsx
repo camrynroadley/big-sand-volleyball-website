@@ -1,12 +1,12 @@
-import Accordion from "../ui/Accordion";
+import { Accordion } from "../ui/Accordion";
 import { Coach } from "../../../types/app";
-import SectionHeading from "../ui/SectionHeading";
+import { SectionHeading } from "../ui/SectionHeading";
 
 interface CoachesProps {
   coaches: Coach[];
 }
 
-const Coaches = ({ coaches }: CoachesProps) => {
+export const Coaches = ({ coaches }: CoachesProps) => {
   return (
     <section className="max-w-xs md:max-w-5xl mx-auto px-4 pt-12 tracking-tight">
       <SectionHeading
@@ -20,5 +20,3 @@ const Coaches = ({ coaches }: CoachesProps) => {
     </section>
   );
 };
-
-export default Coaches;

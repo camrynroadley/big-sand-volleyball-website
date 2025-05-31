@@ -1,12 +1,12 @@
 "use client";
-import ProgramCard from "../ui/ProgramCard";
-import FadeInOnScroll from "../ui/FadeInOnScroll";
-import Carousel from "../ui/Carousel";
-import SectionHeading from "../ui/SectionHeading";
+import { ProgramCard } from "../ui/ProgramCard";
+import { FadeInOnScroll } from "../ui/FadeInOnScroll";
+import { Carousel } from "../ui/Carousel";
+import { SectionHeading } from "../ui/SectionHeading";
 import { Program } from "../../../types/app";
 import { usePrograms } from "@/context/ProgramContext";
 
-const UpcomingPrograms = () => {
+export const UpcomingPrograms = () => {
   const programs: Program[] | undefined = usePrograms();
 
   return (
@@ -56,5 +56,3 @@ const UpcomingPrograms = () => {
     </section>
   );
 };
-
-export default UpcomingPrograms;

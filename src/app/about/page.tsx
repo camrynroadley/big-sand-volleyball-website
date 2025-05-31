@@ -1,9 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
-import Coaches from "@/components/aboutSections/Coaches";
-import Hero from "@/components/aboutSections/Hero";
-import Values from "@/components/aboutSections/Values";
+import { Coaches } from "@/components/aboutSections/Coaches";
+import { Hero } from "@/components/aboutSections/Hero";
+import { Values } from "@/components/aboutSections/Values";
 
-const About = async () => {
+export const About = async () => {
  const supabase = await createClient();
   const { data: coaches } = await supabase.from("big_sand_coaches").select();
   return (
@@ -16,5 +16,3 @@ const About = async () => {
     </div>
   );
 };
-
-export default About;

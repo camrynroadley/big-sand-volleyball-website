@@ -1,11 +1,11 @@
 import { Program } from "../../../types/app";
-import ProgramInfoText from "../ui/ProgramInfoText";
+import { ProgramInfoText } from "../ui/ProgramInfoText";
 
 interface InformationProps {
   program: Program;
 }
 
-const Information = ({ program }: InformationProps) => {
+export const Information = ({ program }: InformationProps) => {
   return (
     <section className="w-full max-w-5xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -22,5 +22,3 @@ const Information = ({ program }: InformationProps) => {
     </section>
   );
 };
-
-export default Information;

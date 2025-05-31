@@ -1,14 +1,13 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import data from "../../stubs/coachesData.json";
+import { useState } from "react";
 import { Coach } from "../../../types/app";
-import FadeInOnScroll from "./FadeInOnScroll";
+import { FadeInOnScroll } from "./FadeInOnScroll";
 
 interface AccordionProps {
   coaches: Coach[];
 }
 
-const Accordion = ({ coaches }: AccordionProps) => {
+export const Accordion = ({ coaches }: AccordionProps) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleItem = (index: number) => {
@@ -56,5 +55,3 @@ const Accordion = ({ coaches }: AccordionProps) => {
     </div>
   );
 };
-
-export default Accordion;

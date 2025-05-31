@@ -1,11 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import HeroLeft from "../../../public/images/hero_left.png";
 import HeroMiddle from "../../../public/images/hero_middle.png";
 import HeroRight from "../../../public/images/hero_right.png";
-import BlurText from "../ui/BlurText";
-import FadeIn from "../ui/FadeIn";
+import { BlurText } from "../ui/BlurText";
+import { FadeIn } from "../ui/FadeIn";
 import { EmailForm } from "../ui/EmailForm";
 import { Spinner } from "../ui/Spinner";
 
@@ -13,7 +13,7 @@ const handleAnimationComplete = () => {
   console.log("Animation completed!");
 };
 
-export default function Hero() {
+export const Hero = () => {
   const [imagesLoaded, setImagesLoaded] = useState(0);
 
   const handleImageLoad = () => {

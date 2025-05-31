@@ -34,7 +34,7 @@ const buildKeyframes = (
   return keyframes;
 };
 
-const BlurText: React.FC<BlurTextProps> = ({
+export const BlurText: React.FC<BlurTextProps> = ({
   text = "",
   delay = 200,
   className = "",
@@ -130,5 +130,3 @@ const BlurText: React.FC<BlurTextProps> = ({
     </p>
   );
 };
-
-export default BlurText;

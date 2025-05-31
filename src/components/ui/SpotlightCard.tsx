@@ -1,6 +1,4 @@
 import React, { useRef, useState } from "react";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
-import Link from "next/link";
 
 interface Position {
   x: number;
@@ -12,7 +10,7 @@ interface SpotlightCardProps extends React.PropsWithChildren {
   spotlightColor?: `rgba(${number}, ${number}, ${number}, ${number})`;
 }
 
-const SpotlightCard: React.FC<SpotlightCardProps> = ({
+export const SpotlightCard: React.FC<SpotlightCardProps> = ({
   children,
   className = "",
   spotlightColor,
@@ -68,5 +66,3 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
     </div>
   );
 };
-
-export default SpotlightCard;

@@ -1,7 +1,7 @@
 "use client";
 
-import BlurText from "./BlurText";
-import FadeInOnScroll from "./FadeInOnScroll";
+import { BlurText } from "./BlurText";
+import { FadeInOnScroll } from "./FadeInOnScroll";
 
 interface SectionHeadingProps {
   label: string;
@@ -9,7 +9,7 @@ interface SectionHeadingProps {
   description: string;
 }
 
-const SectionHeading = ({ label, title, description }: SectionHeadingProps) => {
+export const SectionHeading = ({ label, title, description }: SectionHeadingProps) => {
   const handleAnimationComplete = () => {
     console.log("Animation completed!");
   };
@@ -42,5 +42,3 @@ const SectionHeading = ({ label, title, description }: SectionHeadingProps) => {
     </div>
   );
 };
-
-export default SectionHeading;

@@ -1,12 +1,12 @@
 "use client";
 import { usePrograms } from "@/context/ProgramContext";
 import { Program } from "../../../../types/app";
-import Hero from "@/components/programSections/Hero";
-import Form from "@/components/programSections/Form";
-import Information from "@/components/programSections/Information";
+import { Hero } from "@/components/programSections/Hero";
+import { Form } from "@/components/programSections/Form";
+import { Information } from "@/components/programSections/Information";
 import { useParams } from "next/navigation";
 
-const ProgramDetail = () => {
+export const ProgramDetail = () => {
   const params = useParams();
   const programs: Program[] | undefined = usePrograms();
 
@@ -30,5 +30,3 @@ const ProgramDetail = () => {
     </>
   );
 };
-
-export default ProgramDetail;
