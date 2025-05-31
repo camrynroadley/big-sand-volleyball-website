@@ -119,11 +119,7 @@ export const Navbar = () => {
           target="_blank"
           className="hidden md:block"
         >
-          <GradientText
-            colors={["#750000", "#FF0000"]}
-            animationSpeed={3}
-            showBorder={true}
-          >
+          <GradientText ariaLabel="Button link to Big Sand Clothing and Printing">
             <p className="text-sm font-semibold">Clothing</p>
           </GradientText>
         </Link>
@@ -141,6 +137,7 @@ export const Navbar = () => {
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
+            aria-hidden="true"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -178,11 +175,7 @@ export const Navbar = () => {
                 target="_blank"
                 onClick={() => setIsMobileOpen(false)}
               >
-                <GradientText
-                  colors={["#750000", "#FF0000"]}
-                  animationSpeed={3}
-                  showBorder={true}
-                >
+                <GradientText ariaLabel="Button link to Big Sand Clothing and Printing">
                   <p className="text-base font-semibold">Clothing</p>
                 </GradientText>
               </Link>

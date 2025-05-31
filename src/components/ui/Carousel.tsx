@@ -46,6 +46,19 @@ export const Carousel = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "ArrowRight") {
+      setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
+    }
+    if (e.key === "ArrowLeft") {
+      setCurrentIndex((prev) => Math.max(prev - 1, 0));
+    }
+  };
+  window.addEventListener("keydown", handleKeyDown);
+  return () => window.removeEventListener("keydown", handleKeyDown);
+}, [items.length]);
+
   const containerPadding = 16;
   const itemWidth = containerWidth - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
@@ -145,9 +158,13 @@ export const Carousel = ({
           ? "rounded-full border border-white"
           : "rounded-[24px] border border-gray-300"
       }`}
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Testimonials carousel"
     >
       <motion.div
         className="flex"
+        aria-hidden="true"
         drag="x"
         {...dragProps}
         style={{
@@ -163,16 +180,25 @@ export const Carousel = ({
         onAnimationComplete={handleAnimationComplete}
       >
         {carouselItems.map((item, index) => {
-          const range = [
-            -(index + 1) * trackItemOffset,
-            -index * trackItemOffset,
-            -(index - 1) * trackItemOffset,
-          ];
-          const outputRange = [90, 0, -90];
-          const rotateY = useTransform(x, range, outputRange, { clamp: false });
+          const isActive = index === currentIndex % items.length;
+          const rotateY = useTransform(
+            x,
+            [
+              -(index + 1) * trackItemOffset,
+              -index * trackItemOffset,
+              -(index - 1) * trackItemOffset,
+            ],
+            [90, 0, -90],
+            { clamp: false }
+          );
+
           return (
             <motion.div
               key={index}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Slide ${index + 1} of ${items.length}`}
+              aria-hidden={!isActive}
               className={`relative shrink-0 flex flex-col ${
                 round
                   ? "items-center justify-center text-center border-0"
@@ -181,7 +207,7 @@ export const Carousel = ({
               style={{
                 width: itemWidth,
                 height: round ? itemWidth : "100%",
-                rotateY: rotateY,
+                rotateY,
                 ...(round && { borderRadius: "50%" }),
               }}
               transition={effectiveTransition}
@@ -195,29 +221,38 @@ export const Carousel = ({
         className={`flex w-full justify-center ${
           round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""
         }`}
+        role="tablist"
+        aria-label="Carousel navigation"
       >
         <div className="mt-4 flex justify-between gap-x-3">
-          {items.map((_, index) => (
-            <motion.div
-              key={index}
-              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
-                currentIndex % items.length === index
-                  ? round
-                    ? "bg-white"
-                    : "bg-[#585858]"
-                  : round
-                    ? "bg-[#555]"
-                    : "bg-[#AFAFAF]"
-              }`}
-              animate={{
-                scale: currentIndex % items.length === index ? 1.2 : 1,
-              }}
-              onClick={() => setCurrentIndex(index)}
-              transition={{ duration: 0.15 }}
-            />
-          ))}
+          {items.map((_, index) => {
+            const isActive = currentIndex % items.length === index;
+            return (
+              <motion.button
+                key={index}
+                role="tab"
+                aria-selected={isActive}
+                aria-label={`Go to slide ${index + 1}`}
+                tabIndex={isActive ? 0 : -1}
+                className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
+                  isActive
+                    ? round
+                      ? "bg-white"
+                      : "bg-[#585858]"
+                    : round
+                      ? "bg-[#555]"
+                      : "bg-[#AFAFAF]"
+                }`}
+                animate={{
+                  scale: isActive ? 1.2 : 1,
+                }}
+                onClick={() => setCurrentIndex(index)}
+                transition={{ duration: 0.15 }}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
   );
-}
+};

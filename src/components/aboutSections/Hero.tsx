@@ -21,10 +21,11 @@ export const Hero = () => {
   return (
     <>
       {!allImagesLoaded && <Spinner />}
-      <section className="relative w-full h-screen bg-white flex items-center justify-center overflow-hidden tracking-tight">
+      <section aria-label="Hero Section: Big Sand Volleyball Home Page" className="relative w-full h-screen bg-white flex items-center justify-center overflow-hidden tracking-tight">
         <div className="relative z-10 bg-black text-white rounded-3xl px-8 py-12 w-full max-w-xs md:max-w-xl mx-auto">
           <div className="w-full max-w-3xs mx-auto text-center">
             <BlurText
+              aria-label="Join the Big Sand family"
               text="Join the Big Sand family"
               delay={100}
               animateBy="words"
@@ -49,19 +50,19 @@ export const Hero = () => {
           </FadeInOnScroll>
           <Image
             src={About1}
-            alt="volleyball1"
+            alt="Volleyball player wearing a t-shirt with the Big Sand logo"
             onLoadingComplete={handleImageLoad}
             className="absolute -top-[5%] -left-[18%] w-[35%] h-auto object-cover rounded-2xl shadow-xl"
           />
           <Image
             src={About2}
-            alt="volleyball2"
+            alt="Group of girls practicing volleyball"
             onLoadingComplete={handleImageLoad}
             className="absolute -bottom-[10%] -left-[5%] w-[20%] h-auto object-cover rounded-2xl shadow-xl"
           />
           <Image
             src={About3}
-            alt="volleyball3"
+            alt="Two girls playing volleyball"
             onLoadingComplete={handleImageLoad}
             className="absolute bottom-[15%] -right-[15%] w-[25%] h-auto object-cover rounded-2xl shadow-xl"
           />

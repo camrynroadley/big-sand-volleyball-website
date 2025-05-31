@@ -10,10 +10,17 @@ import { SectionHeading } from "../ui/SectionHeading";
 
 export const Values = () => {
   return (
-    <section className="bg-[#f5f5f5] tracking-tight">
+    <section
+      className="bg-[#f5f5f5] tracking-tight"
+      aria-label="Core values of Big Sand Volleyball Club"
+    >
       <FadeInOnScroll>
-        <section className="max-w-xs md:max-w-5xl mx-auto px-4 pt-12">
+        <section
+          className="max-w-xs md:max-w-5xl mx-auto px-4 pt-12"
+          aria-label="Values section heading"
+        >
           <SectionHeading
+            id="values-heading"
             label="VALUES"
             title="Our focus areas"
             description="We focus on developing these skills through weekly practices. We
@@ -22,17 +29,30 @@ export const Values = () => {
           />
         </section>
       </FadeInOnScroll>
-      <section className="max-w-xs md:max-w-5xl mx-auto px-4 py-12 tracking-tight">
+      <section
+        className="max-w-xs md:max-w-5xl mx-auto px-4 py-12 tracking-tight"
+        aria-label="Values cards"
+      >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {data.map((value, index) => {
+            // Create unique IDs for aria-labelledby on cards
+            const titleId = `value-title-${index}`;
             return (
               <FadeInOnScroll
                 key={`fade-in-on-scroll-value-${value.name}`}
                 delay={0.2 * index}
               >
-                <CardContainer key={`card-container-value-${value.name}`}>
+                <CardContainer
+                  key={`card-container-value-${value.name}`}
+                  as="article"
+                  role="region"
+                  aria-labelledby={titleId}
+                  tabIndex={-1}
+                  className="focus:outline-none"
+                >
                   <CardBody className="flex flex-col justify-between bg-white relative group/card border-black/[0.1] w-auto sm:w-[30rem] rounded-xl p-6 border text-center h-full">
                     <CardItem
+                      id={titleId}
                       translateZ="50"
                       className="text-base font-semibold text-black mx-auto"
                     >

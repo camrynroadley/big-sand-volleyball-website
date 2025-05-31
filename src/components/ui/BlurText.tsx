@@ -97,7 +97,11 @@ export const BlurText: React.FC<BlurTextProps> = ({
   );
 
   return (
-    <p ref={ref} className={`blur-text ${className} flex flex-wrap`}>
+    <p
+      ref={ref}
+      className={`blur-text ${className} flex flex-wrap`}
+      aria-label={text}
+    >
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 
@@ -121,6 +125,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
               display: "inline-block",
               willChange: "transform, filter, opacity",
             }}
+            aria-hidden="true"
           >
             {segment === " " ? "\u00A0" : segment}
             {animateBy === "words" && index < elements.length - 1 && "\u00A0"}

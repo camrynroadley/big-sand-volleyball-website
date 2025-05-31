@@ -13,6 +13,7 @@ export const UpcomingPrograms = () => {
     <section className="bg-[#f5f5f5] py-16 px-4 tracking-tight">
       <div className="max-w-xs md:max-w-5xl mx-auto">
         <SectionHeading
+          id="upcoming-programs-heading"
           label="UPCOMING PROGRAMS"
           title="Level up your game"
           description="Check back regularly for new programs and sessions.

@@ -48,13 +48,10 @@ export const CardContainer = ({
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
-        className={cn(
-          "items-center justify-center",
-          containerClassName
-        )}
-        style={{
-          perspective: "1000px",
-        }}
+        className={cn("items-center justify-center", containerClassName)}
+        style={{ perspective: "1000px" }}
+        role="region"
+        aria-label="Interactive 3D Card Container"
       >
         <div
           ref={containerRef}
@@ -125,19 +122,25 @@ export const CardItem = ({
     handleAnimations();
   }, [isMouseEntered]);
 
-  const handleAnimations = () => {
+  const handleAnimations = (active = isMouseEntered) => {
     if (!ref.current) return;
-    if (isMouseEntered) {
-      ref.current.style.transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
-    } else {
-      ref.current.style.transform = `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`;
-    }
+    ref.current.style.transform = active
+      ? `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`
+      : `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`;
   };
 
   return (
     <Tag
       ref={ref}
-      className={cn("w-fit transition duration-200 ease-linear", className)}
+      className={cn(
+        "w-fit transition duration-200 ease-linear",
+        className
+      )}
+      tabIndex={0}
+      onFocus={() => handleAnimations(true)}
+      onBlur={() => handleAnimations(false)}
+      onMouseEnter={() => handleAnimations(true)}
+      onMouseLeave={() => handleAnimations(false)}
       {...rest}
     >
       {children}

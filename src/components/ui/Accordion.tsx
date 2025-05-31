@@ -20,10 +20,11 @@ export const Accordion = ({ coaches }: AccordionProps) => {
         const isOpen = openIndex === index;
         return (
           <FadeInOnScroll key={`fade-in-on-scroll-accordion-${index}`}>
-            <div
-              className="border border-gray-200 rounded-xl overflow-hidden transition-all"
-            >
+            <div className="border border-gray-200 rounded-xl overflow-hidden transition-all">
               <button
+                aria-expanded={isOpen}
+                aria-controls={`panel-${coach.name}`}
+                id={`accordion-header-${coach.name}`}
                 onClick={() => toggleItem(index)}
                 className="w-full flex items-center justify-between px-6 py-4 text-left text-lg font-medium cursor-pointer"
               >
@@ -43,7 +44,7 @@ export const Accordion = ({ coaches }: AccordionProps) => {
                     isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="px-6 pb-4 pt-0 text-gray-600 text-base">
+                  <div aria-labelledby={`accordion-header-${coach.name}`} className="px-6 pb-4 pt-0 text-gray-600 text-base">
                     {coach.description}
                   </div>
                 </div>

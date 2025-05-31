@@ -14,6 +14,7 @@ export const FadeIn = ({
 }: FadeInProps) => {
   return (
     <motion.div
+      aria-hidden="true"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration, ease: "easeOut" }}
@@ -21,4 +22,4 @@ export const FadeIn = ({
       {children}
     </motion.div>
   );
-}
+};

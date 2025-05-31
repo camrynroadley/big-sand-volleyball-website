@@ -4,11 +4,11 @@ import { UpcomingPrograms } from "@/components/homeSections/UpcomingPrograms";
 
 const HomePage = () => {
   return (
-    <>
+    <main role="main" aria-label="Home Page" >
       <Hero />
       <UpcomingPrograms />
       {/* <Information /> */}
-    </>
+    </main>
   );
 };
 

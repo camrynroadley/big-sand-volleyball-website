@@ -14,6 +14,7 @@ export const FadeInOnScroll = ({
 }: FadeInOnScrollProps) => {
   return (
     <motion.div
+      aria-hidden="true"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay, duration, ease: "easeOut" }}
@@ -23,4 +24,4 @@ export const FadeInOnScroll = ({
       {children}
     </motion.div>
   );
-}
+};

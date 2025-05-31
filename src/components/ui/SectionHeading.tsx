@@ -4,18 +4,19 @@ import { BlurText } from "./BlurText";
 import { FadeInOnScroll } from "./FadeInOnScroll";
 
 interface SectionHeadingProps {
+  id: string,
   label: string;
   title: string;
   description: string;
 }
 
-export const SectionHeading = ({ label, title, description }: SectionHeadingProps) => {
+export const SectionHeading = ({ id, label, title, description }: SectionHeadingProps) => {
   const handleAnimationComplete = () => {
     console.log("Animation completed!");
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 items-center tracking-tight">
+    <div id={id} className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 items-center tracking-tight">
       <div className="text-left">
         <BlurText
           text={label}
