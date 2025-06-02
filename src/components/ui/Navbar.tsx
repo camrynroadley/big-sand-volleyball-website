@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { GradientText } from "../ui/GradientText";
 import Logo from "../../../public/images/logo.png";
 import Image from "next/image";
-import { Program } from "../../../types/app";
+import { Program } from "../../types/app";
 import { usePrograms } from "@/context/ProgramContext";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";

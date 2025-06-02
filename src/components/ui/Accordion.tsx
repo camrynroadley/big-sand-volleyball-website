@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Coach } from "../../../types/app";
+import { Coach } from "../../types/app";
 import { FadeInOnScroll } from "./FadeInOnScroll";
 
 interface AccordionProps {

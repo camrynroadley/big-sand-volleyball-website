@@ -1,5 +1,5 @@
 import { Accordion } from "../ui/Accordion";
-import { Coach } from "../../../types/app";
+import { Coach } from "../../types/app";
 import { SectionHeading } from "../ui/SectionHeading";
 
 interface CoachesProps {

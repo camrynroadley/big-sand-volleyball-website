@@ -1,4 +1,4 @@
-import { EmailFormData } from "../../../types/app";
+import { EmailFormData } from "../../types/app";
 
 export const EmailSignUpHandler = async (data: EmailFormData) => {
     const res = await fetch('/api/subscription', {

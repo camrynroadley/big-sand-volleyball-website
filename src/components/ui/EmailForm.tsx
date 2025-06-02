@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
-import { EmailFormData } from '../../../types/app';
+import { EmailFormData } from '../../types/app';
 
 interface EmailFormProps {
   formClassName?: string,

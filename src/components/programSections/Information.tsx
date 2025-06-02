@@ -1,4 +1,4 @@
-import { Program } from "../../../types/app";
+import { Program } from "../../types/app";
 import { ProgramInfoText } from "../ui/ProgramInfoText";
 
 interface InformationProps {

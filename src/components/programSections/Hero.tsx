@@ -1,4 +1,4 @@
-import { Program } from "../../../types/app";
+import { Program } from "../../types/app";
 import { BlurText } from "../ui/BlurText";
 import { FadeInOnScroll } from "../ui/FadeInOnScroll";
 

@@ -9,10 +9,6 @@ import { FadeIn } from "../ui/FadeIn";
 import { EmailForm } from "../ui/EmailForm";
 import { Spinner } from "../ui/Spinner";
 
-const handleAnimationComplete = () => {
-  console.log("Animation completed!");
-};
-
 export const Hero = () => {
   const [imagesLoaded, setImagesLoaded] = useState(0);
 
@@ -33,7 +29,6 @@ export const Hero = () => {
             delay={100}
             animateBy="words"
             direction="top"
-            onAnimationComplete={handleAnimationComplete}
             className="w-full md:w-5/6 mx-auto text-5xl md:text-6xl font-semibold mb-4 text-black justify-center tracking-tight"
           />
           <FadeIn delay={1}>
@@ -54,19 +49,19 @@ export const Hero = () => {
           <Image
             src={HeroLeft}
             alt="volleyball1"
-            onLoadingComplete={handleImageLoad}
+            onLoad={handleImageLoad}
             className="absolute -top-[20%] -left-[24%] w-[35%] md:-top-[5%] md:-left-[40%] md:w-[35%] h-auto object-cover rounded-lg md:rounded-2xl shadow-xl"
           />
           <Image
             src={HeroMiddle}
             alt="volleyball2"
-            onLoadingComplete={handleImageLoad}
+            onLoad={handleImageLoad}
             className="absolute -bottom-[35%] -right-[20%] w-[40%] md:-bottom-[40%] md:-right-[20%] md:w-[30%] h-auto object-cover rounded-lg md:rounded-2xl shadow-xl"
           />
           <Image
             src={HeroRight}
             alt="volleyball3"
-            onLoadingComplete={handleImageLoad}
+            onLoad={handleImageLoad}
             className="absolute -top-[10%] -right-[25%] w-[30%] md:-top-[15%] md:-right-[50%] md:w-[40%] h-auto object-cover rounded-lg md:rounded-2xl shadow-xl"
           />
         </div>

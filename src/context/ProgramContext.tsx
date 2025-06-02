@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { Program } from '../../types/app';
+import { Program } from '../types/app';
 
 const ProgramContext = createContext<Program[] | null>(null);
 

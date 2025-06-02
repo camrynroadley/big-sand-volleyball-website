@@ -1,7 +1,7 @@
 "use client";
 import Head from "next/head";
 import { usePrograms } from "@/context/ProgramContext";
-import { Program } from "../../../../types/app";
+import { Program } from "../../../types/app";
 import { Hero } from "@/components/programSections/Hero";
 import { Form } from "@/components/programSections/Form";
 import { Information } from "@/components/programSections/Information";

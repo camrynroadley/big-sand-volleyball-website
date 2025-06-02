@@ -1,4 +1,4 @@
-import { FormInput } from "../../../../types/app";
+import { FormInput } from "../../../types/app";
 
 export const SignUpFormContent: FormInput[] = [
   {

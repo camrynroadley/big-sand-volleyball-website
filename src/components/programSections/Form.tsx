@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { SignUpFormContent } from "./helpers/SignUpFormContent";
 import { Loader2, CheckCircle } from "lucide-react"; // Optional: spinner & success icon
-import { Program } from "../../../types/app";
+import { Program } from "../../types/app";
 
 type FormValues = Record<string, string>;
 

@@ -11,10 +11,6 @@ interface SectionHeadingProps {
 }
 
 export const SectionHeading = ({ id, label, title, description }: SectionHeadingProps) => {
-  const handleAnimationComplete = () => {
-    console.log("Animation completed!");
-  };
-
   return (
     <div id={id} className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 items-center tracking-tight">
       <div className="text-left">
@@ -23,7 +19,6 @@ export const SectionHeading = ({ id, label, title, description }: SectionHeading
           delay={0}
           animateBy="words"
           direction="top"
-          onAnimationComplete={handleAnimationComplete}
           className="text-sm font-semibold text-[#DF0000] uppercase mb-2"
         />
         <BlurText
@@ -31,7 +26,6 @@ export const SectionHeading = ({ id, label, title, description }: SectionHeading
           delay={100}
           animateBy="words"
           direction="top"
-          onAnimationComplete={handleAnimationComplete}
           className="text-5xl font-semibold"
         />
       </div>

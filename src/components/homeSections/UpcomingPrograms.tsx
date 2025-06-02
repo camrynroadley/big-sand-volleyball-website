@@ -3,7 +3,7 @@ import { ProgramCard } from "../ui/ProgramCard";
 import { FadeInOnScroll } from "../ui/FadeInOnScroll";
 import { Carousel } from "../ui/Carousel";
 import { SectionHeading } from "../ui/SectionHeading";
-import { Program } from "../../../types/app";
+import { Program } from "../../types/app";
 import { usePrograms } from "@/context/ProgramContext";
 
 export const UpcomingPrograms = () => {
