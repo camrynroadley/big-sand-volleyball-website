@@ -29,7 +29,7 @@ export interface FormInput {
   id: string;
   label: string;
   error?: string;
-  type?: "text" | "email" | "tel" | "textarea" | "select" | "checkbox-group";
+  type?: "text" | "email" | "tel" | "textarea" | "select" | "checkbox-group" | "checkbox";
   options?: string[];
   required?: boolean;
 }
@@ -49,7 +49,9 @@ export interface SignUpFormData {
     grade: string,
     school?: string,
     sessions: string[],
-    health_info?: string,
+    shirt_size?: string,
+    agree_to_privacy: boolean,
+    agree_to_photos: boolean,
 }
 
 export interface EmailFormData {

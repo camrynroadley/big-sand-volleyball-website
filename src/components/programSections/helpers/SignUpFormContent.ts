@@ -1,6 +1,6 @@
 import { FormInput } from "../../../types/app";
 
-export const SignUpFormContent: FormInput[] = [
+export const signUpFormContent: FormInput[] = [
   {
     id: "child_first_name",
     label: "Child First Name *",
@@ -64,10 +64,23 @@ export const SignUpFormContent: FormInput[] = [
     options: ["4", "5", "6", "7", "8", "9", "10", "11", "12"],
   },
   { id: "school", label: "School", type: "text" },
-  { id: "shirt_size", label: "T-Shirt Size (Women's)", type: "text" },
   {
-    id: "health_info",
-    label: "Any allergies or past injuries we should be aware of?",
-    type: "textarea",
+    id: "shirt_size",
+    label: "T-Shirt Size (Women's)",
+    type: "select",
+    options: ["XS", "SM", "MD", "LG", "XL", "Other"],
+  },
+  {
+    id: "agree_to_privacy",
+    label: "I agree to the collection of this information",
+    type: "checkbox",
+    error: "You must agree to the privacy policy to continue.",
+    required: true,
+  },
+  {
+    id: "agree_to_photos",
+    label:
+      "I understand that there may be photos taken and used for promotional purposes only",
+    type: "checkbox",
   },
 ];

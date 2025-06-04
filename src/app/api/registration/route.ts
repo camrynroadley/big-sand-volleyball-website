@@ -1,25 +1,31 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { registrationSchema } from "@/components/programSections/helpers/registrationSchema";
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
 export async function POST(request: Request) {
   try {
-    console.log('*** request: ', request)
-    const data = await request.json();
-    console.log('*** data: ', data)
+    const body = await request.json();
+    const parsed = registrationSchema.safeParse(body);
 
-    // Basic check to ensure data exists
-    if (!data || typeof data !== "object" || Object.keys(data).length === 0) {
-      return NextResponse.json({ error: "Form data is required" }, { status: 400 });
+    if (!parsed.success) {
+      const errors = parsed.error.flatten();
+      console.log("*** error occurred");
+      console.log("*** errors: ", errors);
+      return NextResponse.json(
+        { error: "Invalid input", details: errors },
+        { status: 400 }
+      );
     }
+    const updatedData = {...parsed.data, program_slug: body.program_slug}
 
     const { error } = await supabase
       .from("big_sand_registrations")
-      .insert([data]);
+      .insert([updatedData]);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

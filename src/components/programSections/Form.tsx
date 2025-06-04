@@ -1,8 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { SignUpFormContent } from "./helpers/SignUpFormContent";
-import { Loader2, CheckCircle } from "lucide-react"; // Optional: spinner & success icon
+import ReCAPTCHA from "react-google-recaptcha";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpFormContent } from "./helpers/signUpFormContent";
+import {
+  registrationSchema,
+  RegistrationSchema,
+} from "./helpers/registrationSchema";
+import { Loader2, CheckCircle } from "lucide-react";
 import { Program } from "../../types/app";
 
 type FormValues = Record<string, string>;
@@ -15,37 +21,33 @@ export const Form = ({ program }: FormProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
+    watch,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<RegistrationSchema>({
+    resolver: zodResolver(registrationSchema),
+    mode: "all",
+  });
+  //  } = useForm();
 
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-  useEffect(() => {
-    SignUpFormContent.push({
-      id: "sessions",
-      label: "Select sessions:",
-      type: "checkbox-group",
-      options: program.sessions.map((session, index) => {
-        if (session.isFull) {
-          return `Waitlist Session ${index}`;
-        } else {
-          return `Session ${index}`;
-        }
-      }),
-      error: "Please select at least one session",
-      required: true,
-    });
-  }, []);
+  const onSubmit = async (data: RegistrationSchema) => {
+    console.log("*** on submit");
+    if (!data.sessions || data.sessions.length === 0) {
+      setStatus("Please select at least one session.");
+      return;
+    }
 
-  const onSubmit = async (data: FormValues) => {
     setLoading(true);
     setStatus("");
     setShowSuccess(false);
 
-    const formData = { ...data, program_slug: "test" };
+    const formData = { ...data, program_slug: program.slug ?? "test" };
 
     try {
       const res = await fetch("/api/registration", {
@@ -90,10 +92,11 @@ export const Form = ({ program }: FormProps) => {
         className="space-y-6 max-w-3xl mx-auto"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {SignUpFormContent.map((input) => {
+          {signUpFormContent.map((input) => {
             const isTextarea = input.type === "textarea";
             const isSelect = input.type === "select";
             const isCheckboxGroup = input.type === "checkbox-group";
+            const isCheckbox = input.type === "checkbox";
             const inputType = input.type || "text";
 
             return (
@@ -156,6 +159,20 @@ export const Form = ({ program }: FormProps) => {
                       </label>
                     ))}
                   </div>
+                ) : isCheckbox ? (
+                  <div className="flex flex-wrap gap-4">
+                    <label
+                      key={input.id}
+                      className="flex items-center space-x-2"
+                    >
+                      <input
+                        type="checkbox"
+                        {...register(input.id)}
+                        id={input.id}
+                        className="accent-red-800"
+                      />
+                    </label>
+                  </div>
                 ) : (
                   <input
                     {...register(input.id, { required: input.required })}
@@ -171,8 +188,56 @@ export const Form = ({ program }: FormProps) => {
               </div>
             );
           })}
-        </div>
+          {program.sessions.length > 1 && (
+            <div className="md:col-span-2">
+              <label className="block mb-1 font-medium text-sm">
+                Sessions:
+              </label>
+              <div className="flex flex-wrap gap-4">
+                {program.sessions.map((session) => (
+                  <label
+                    key={session.id}
+                    className="flex items-center space-x-2"
+                  >
+                    <input
+                      type="checkbox"
+                      value={
+                        session.isFull
+                          ? `waitlist-session-${session.id}`
+                          : `session-${session.id}`
+                      }
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        const checked = e.target.checked;
+                        const current = watch("sessions") || [];
+                        const updated = checked
+                          ? [...current, value]
+                          : current.filter((v: string) => v !== value);
 
+                        setValue("sessions", updated, { shouldValidate: true });
+                      }}
+                      className="accent-red-800"
+                    />
+                    <span>
+                      {session.isFull
+                        ? `Waitlist Session ${session.id}`
+                        : `Session ${session.id}`}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              {errors.sessions && (
+                <p className="text-red-600 text-sm mt-1">
+                  {errors.sessions.message as string}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+        />
         <button
           type="submit"
           disabled={loading}
