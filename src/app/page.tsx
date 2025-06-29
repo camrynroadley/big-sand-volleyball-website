@@ -7,7 +7,6 @@ const HomePage = () => {
     <main role="main" aria-label="Home Page" >
       <Hero />
       <UpcomingPrograms />
-      {/* <Information /> */}
     </main>
   );
 };

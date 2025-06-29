@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { Resend } from "resend";
-// import { appendToSheet } from '@/lib/googleSheets'; // you write this
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -31,18 +29,6 @@ export async function POST(request: Request) {
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
-    // await appendToSheet(email); // your Google Sheets integration here
-
-    const resend = new Resend("re_X2enEKKY_Dv7TwdvMtTR5UAjJnPYLopqZ");
-
-    await resend.emails.send({
-      from: "onboarding@resend.dev",
-      to: "bigsandvolleyballwinnipeg@gmail.com",
-      subject: "Hello World",
-      html: "<p>Congrats on sending your <strong>first email</strong>!</p>",
-    });
-
     return NextResponse.json({ message: "Subscribed!" });
   } catch (e: any) {
     return NextResponse.json(

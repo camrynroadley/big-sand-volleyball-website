@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpFormContent } from "./helpers/signUpFormContent";
 import {
@@ -31,7 +31,6 @@ export const Form = ({ program }: FormProps) => {
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const onSubmit = async (data: RegistrationSchema) => {
     if (!data.sessions || data.sessions.length === 0) {
@@ -43,18 +42,9 @@ export const Form = ({ program }: FormProps) => {
     setStatus("");
     setShowSuccess(false);
 
-    const token = await recaptchaRef.current?.executeAsync();
-    recaptchaRef.current?.reset();
-
-    if (!token) {
-      setStatus("reCAPTCHA verification failed.");
-      return;
-    }
-
     const formData = {
       ...data,
       program_slug: program.slug ?? "test",
-      recaptcha_token: token,
     };
 
     try {
@@ -117,7 +107,10 @@ export const Form = ({ program }: FormProps) => {
                 }
               >
                 {!isCheckbox && (
-                  <label className="block mb-1 font-medium text-sm">
+                  <label
+                    htmlFor={input.id}
+                    className="block mb-1 font-medium text-sm"
+                  >
                     {input.label}
                   </label>
                 )}
@@ -177,13 +170,15 @@ export const Form = ({ program }: FormProps) => {
                 ) : isCheckbox ? (
                   <div className="md:col-span-2 w-full">
                     <div className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        {...register(input.id)}
-                        id={input.id}
-                        className="accent-red-800"
-                      />
-                      <span>{input.label}</span>
+                      <label className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          {...register(input.id)}
+                          id={input.id}
+                          className="accent-red-800"
+                        />
+                        <span>{input.label}</span>
+                      </label>
                     </div>
                   </div>
                 ) : (
@@ -247,10 +242,6 @@ export const Form = ({ program }: FormProps) => {
             </div>
           )}
         </div>
-        <ReCAPTCHA
-          ref={recaptchaRef}
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-        />
         <button
           type="submit"
           disabled={loading}

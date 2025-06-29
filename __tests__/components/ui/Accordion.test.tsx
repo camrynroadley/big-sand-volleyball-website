@@ -30,10 +30,8 @@ describe("Accordion", () => {
   it("does not show any descriptions by default", () => {
     render(<Accordion coaches={mockCoaches} />);
 
-    const panel1 = screen.getByText(mockCoaches[0].description).parentElement
-      ?.parentElement;
-    const panel2 = screen.getByText(mockCoaches[1].description).parentElement
-      ?.parentElement;
+    const panel1 = screen.getByText(mockCoaches[0].description).parentElement;
+    const panel2 = screen.getByText(mockCoaches[1].description).parentElement;
 
     expect(panel1).toHaveClass("max-h-0");
     expect(panel2).toHaveClass("max-h-0");

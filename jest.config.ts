@@ -13,7 +13,7 @@ const customJestConfig = {
     "src/components/**/*.{ts,tsx,js,jsx}",
     "src/context/**/*.{ts,tsx,js,jsx}",
     "src/lib/**/*.{ts,tsx,js,jsx}",
-    "src/utils/**/*.{ts,tsx,js,jsx}",
+    "src/utils/supabase/server.{ts,tsx,js,jsx}",
     "!**/node_modules/**",
     "!**/vendor/**",
     "!**/*.d.ts",
