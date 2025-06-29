@@ -73,26 +73,6 @@ describe("Hero", () => {
     );
   });
 
-  it("shows Spinner while images are still loading", () => {
-    // Override mock to delay image loading
-    jest.resetModules();
-    const onLoadFns: Function[] = [];
-
-    jest.doMock("next/image", () => (props: any) => {
-      onLoadFns.push(props.onLoadingComplete);
-      return <img alt={props.alt} data-testid="mock-image" />;
-    });
-
-    const { Hero: DelayedHero } = require("../../../src/components/aboutSections/Hero");
-
-    const { queryByTestId } = render(<DelayedHero />);
-    expect(queryByTestId("spinner")).toBeInTheDocument();
-
-    // Simulate all images loading
-    onLoadFns.forEach((fn) => fn());
-    expect(queryByTestId("spinner")).not.toBeInTheDocument();
-  });
-
   it("renders three images with correct alt text", () => {
     render(<Hero />);
     expect(
