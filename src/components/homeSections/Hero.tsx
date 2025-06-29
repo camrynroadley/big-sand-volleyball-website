@@ -44,6 +44,7 @@ export const Hero = () => {
               inputClassName="text-black bg-transparent placeholder-black"
               buttonClassName="bg-black text-white hover:bg-[#272727] hover:text-white"
               notificationClassName="text-black"
+              spinnerClassName="text-white"
             />
           </FadeIn>
           <Image

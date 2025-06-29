@@ -46,6 +46,7 @@ export const Hero = () => {
               inputClassName="bg-transparent text-white placeholder-white"
               buttonClassName="bg-white text-black hover:bg-gray-200"
               notificationClassName="text-white"
+              spinnerClassName="text-black"
             />
           </FadeInOnScroll>
           <Image

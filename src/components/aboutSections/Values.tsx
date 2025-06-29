@@ -44,10 +44,7 @@ export const Values = () => {
               >
                 <CardContainer
                   key={`card-container-value-${value.name}`}
-                  as="article"
-                  role="region"
                   aria-labelledby={titleId}
-                  tabIndex={-1}
                   className="focus:outline-none"
                 >
                   <CardBody className="flex flex-col justify-between bg-white relative group/card border-black/[0.1] w-auto sm:w-[30rem] rounded-xl p-6 border text-center h-full">

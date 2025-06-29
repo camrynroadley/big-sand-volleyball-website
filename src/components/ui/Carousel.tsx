@@ -9,8 +9,7 @@ export interface CarouselItem {
 }
 
 export interface CarouselProps {
-  items?: any;
-  baseWidth?: number;
+  items: JSX.Element[];
   autoplay?: boolean;
   autoplayDelay?: number;
   pauseOnHover?: boolean;
@@ -25,7 +24,6 @@ const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
 
 export const Carousel = ({
   items,
-  baseWidth,
   autoplay = false,
   autoplayDelay = 3000,
   pauseOnHover = false,

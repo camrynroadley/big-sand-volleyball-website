@@ -1,7 +1,7 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { EmailFormData } from '../../types/app';
 
 interface EmailFormProps {
@@ -9,9 +9,10 @@ interface EmailFormProps {
   inputClassName?: string,
   buttonClassName?: string,
   notificationClassName?: string;
+  spinnerClassName?: string;
 }
 
-export const EmailForm = ({ formClassName, inputClassName, buttonClassName, notificationClassName }: EmailFormProps) => {
+export const EmailForm = ({ formClassName, inputClassName, buttonClassName, notificationClassName, spinnerClassName }: EmailFormProps) => {
   const {
     register,
     handleSubmit,
@@ -40,6 +41,7 @@ export const EmailForm = ({ formClassName, inputClassName, buttonClassName, noti
       setTimeout(() => setShowSuccess(false), 5000);
     } else {
       setStatus(result.error || 'Something went wrong.');
+      setTimeout(() => setStatus(''), 5000);
     }
   };
 
@@ -68,7 +70,7 @@ export const EmailForm = ({ formClassName, inputClassName, buttonClassName, noti
         >
           {isSubmitting ? (
             <svg
-              className="w-4 h-4 animate-spin text-white"
+              className={`w-4 h-4 animate-spin ${spinnerClassName}`}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

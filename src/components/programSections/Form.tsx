@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import ReCAPTCHA from "react-google-recaptcha";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,8 +10,6 @@ import {
 } from "./helpers/registrationSchema";
 import { Loader2, CheckCircle } from "lucide-react";
 import { Program } from "../../types/app";
-
-type FormValues = Record<string, string>;
 
 interface FormProps {
   program: Program;
@@ -29,7 +27,6 @@ export const Form = ({ program }: FormProps) => {
     resolver: zodResolver(registrationSchema),
     mode: "all",
   });
-  //  } = useForm();
 
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
@@ -37,7 +34,6 @@ export const Form = ({ program }: FormProps) => {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const onSubmit = async (data: RegistrationSchema) => {
-    console.log("*** on submit");
     if (!data.sessions || data.sessions.length === 0) {
       setStatus("Please select at least one session.");
       return;
@@ -47,7 +43,19 @@ export const Form = ({ program }: FormProps) => {
     setStatus("");
     setShowSuccess(false);
 
-    const formData = { ...data, program_slug: program.slug ?? "test" };
+    const token = await recaptchaRef.current?.executeAsync();
+    recaptchaRef.current?.reset();
+
+    if (!token) {
+      setStatus("reCAPTCHA verification failed.");
+      return;
+    }
+
+    const formData = {
+      ...data,
+      program_slug: program.slug ?? "test",
+      recaptcha_token: token,
+    };
 
     try {
       const res = await fetch("/api/registration", {
@@ -102,11 +110,17 @@ export const Form = ({ program }: FormProps) => {
             return (
               <div
                 key={input.id}
-                className={isTextarea || isCheckboxGroup ? "md:col-span-2" : ""}
+                className={
+                  isTextarea || isCheckboxGroup || isCheckbox
+                    ? "md:col-span-2"
+                    : ""
+                }
               >
-                <label className="block mb-1 font-medium text-sm">
-                  {input.label}
-                </label>
+                {!isCheckbox && (
+                  <label className="block mb-1 font-medium text-sm">
+                    {input.label}
+                  </label>
+                )}
 
                 {isTextarea ? (
                   <textarea
@@ -160,18 +174,16 @@ export const Form = ({ program }: FormProps) => {
                     ))}
                   </div>
                 ) : isCheckbox ? (
-                  <div className="flex flex-wrap gap-4">
-                    <label
-                      key={input.id}
-                      className="flex items-center space-x-2"
-                    >
+                  <div className="md:col-span-2 w-full">
+                    <div className="flex items-center space-x-2">
                       <input
                         type="checkbox"
                         {...register(input.id)}
                         id={input.id}
                         className="accent-red-800"
                       />
-                    </label>
+                      <span>{input.label}</span>
+                    </div>
                   </div>
                 ) : (
                   <input
