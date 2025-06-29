@@ -1,5 +1,6 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { Hero } from "@/components/aboutSections/Hero";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { render, screen } from "@testing-library/react";
+import { Hero } from "../../../src/components/aboutSections/Hero";
 
 jest.mock("../../../public/images/about_1.jpg", () => ({
   default: "/test-image-1.jpg",
@@ -22,13 +23,13 @@ jest.mock("next/image", () => ({
         alt={alt}
         {...rest}
         data-testid="mock-image"
-        onLoad={onLoadingComplete} // use onLoad for manual control in tests
+        onLoad={onLoadingComplete}
       />
     );
   },
 }));
 
-jest.mock("@/components/ui/BlurText", () => ({
+jest.mock("../../../src/components/ui/BlurText", () => ({
   BlurText: (props: any) => (
     <div data-testid="blur-text" aria-label={props["aria-label"]}>
       {props.text}
@@ -36,17 +37,17 @@ jest.mock("@/components/ui/BlurText", () => ({
   ),
 }));
 
-jest.mock("@/components/ui/EmailForm", () => ({
+jest.mock("../../../src/components/ui/EmailForm", () => ({
   EmailForm: () => <form data-testid="email-form" />,
 }));
 
-jest.mock("@/components/ui/FadeInOnScroll", () => ({
+jest.mock("../../../src/components/ui/FadeInOnScroll", () => ({
   FadeInOnScroll: ({ children }: any) => (
     <div data-testid="fade-in">{children}</div>
   ),
 }));
 
-jest.mock("@/components/ui/Spinner", () => ({
+jest.mock("../../../src/components/ui/Spinner", () => ({
   Spinner: () => <div data-testid="spinner">Loading...</div>,
 }));
 
@@ -82,7 +83,7 @@ describe("Hero", () => {
       return <img alt={props.alt} data-testid="mock-image" />;
     });
 
-    const { Hero: DelayedHero } = require("@/components/aboutSections/Hero");
+    const { Hero: DelayedHero } = require("../../../src/components/aboutSections/Hero");
 
     const { queryByTestId } = render(<DelayedHero />);
     expect(queryByTestId("spinner")).toBeInTheDocument();

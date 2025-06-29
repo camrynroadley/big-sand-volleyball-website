@@ -150,6 +150,7 @@ export const Form = ({ program }: FormProps) => {
                     {input.options?.map((option) => (
                       <label
                         key={option}
+                        htmlFor={input.id}
                         className="flex items-center space-x-2"
                       >
                         <input

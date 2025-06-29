@@ -1,15 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render, screen } from "@testing-library/react";
-import { Values } from "@/components/aboutSections/Values";
-import valuesData from "@/stubs/valuesData.json";
+import { Values } from "../../../src/components/aboutSections/Values";
+import valuesData from "../../../src/stubs/valuesData.json";
 
-// Mock child components
-jest.mock("@/components/ui/FadeInOnScroll", () => ({
+jest.mock("../../../src/components/ui/FadeInOnScroll", () => ({
   FadeInOnScroll: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="fade-in">{children}</div>
   ),
 }));
 
-jest.mock("@/components/ui/SectionHeading", () => ({
+jest.mock("../../../src/components/ui/SectionHeading", () => ({
   SectionHeading: ({ id, label, title, description }: any) => (
     <div data-testid="section-heading" id={id}>
       <h2>{label}</h2>
@@ -19,7 +19,7 @@ jest.mock("@/components/ui/SectionHeading", () => ({
   ),
 }));
 
-jest.mock("@/components/ui/FloatingCard", () => ({
+jest.mock("../../../src/components/ui/FloatingCard", () => ({
   CardContainer: ({ children, ...props }: any) => (
     <div data-testid="card-container" {...props}>
       {children}

@@ -1,11 +1,8 @@
-// __tests__/Coaches.test.tsx
-
 import { render, screen } from "@testing-library/react";
-import { Coaches } from "@/components/aboutSections/Coaches";
-import { Coach } from "@/types/app";
+import { Coaches } from "../../../src/components/aboutSections/Coaches";
+import { Coach } from "../../../src/types/app";
 
-// Mock dependencies
-jest.mock("@/components/ui/Accordion", () => ({
+jest.mock("../../../src/components/ui/Accordion", () => ({
 Accordion: ({ coaches, ...props }: { coaches: Coach[] }) => (
     <div data-testid="accordion" {...props}>
       {coaches.map((coach) => (
@@ -22,7 +19,7 @@ interface SectionHeadingProps {
   description: string;
 }
 
-jest.mock("@/components/ui/SectionHeading", () => ({
+jest.mock("../../../src/components/ui/SectionHeading", () => ({
   SectionHeading: ({ title, label, description, id }: SectionHeadingProps) => (
     <div data-testid="section-heading" id={id}>
       <h2>{label}</h2>

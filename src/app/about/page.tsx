@@ -20,7 +20,7 @@ const AboutPage = async () => {
       <main role="main" aria-label="About Page" className="mb-16">
         <Hero />
         <Values />
-        {coaches && <Coaches coaches={coaches} />}
+        {coaches && coaches.length > 0 && <Coaches coaches={coaches} />}
       </main>
     </>
   );

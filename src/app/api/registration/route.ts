@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { registrationSchema } from "@/components/programSections/helpers/registrationSchema";
@@ -14,8 +15,6 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       const errors = parsed.error.flatten();
-      console.log("*** error occurred");
-      console.log("*** errors: ", errors);
       return NextResponse.json(
         { error: "Invalid input", details: errors },
         { status: 400 }

@@ -1,13 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { Hero } from "@/components/programSections/Hero";
-import { Program } from "@/types/app";
+import { Hero } from "../../../src/components/programSections/Hero";
+import { Program } from "../../../src/types/app";
 
-// Mock child components
-jest.mock("../../ui/BlurText", () => ({
+jest.mock("../../../src/components/ui/BlurText", () => ({
   BlurText: ({ text }: { text: string }) => <div data-testid="blur-text">{text}</div>,
 }));
 
-jest.mock("../../ui/FadeInOnScroll", () => ({
+jest.mock("../../../src/components/ui/FadeInOnScroll", () => ({
   FadeInOnScroll: ({ children }: { children: React.ReactNode }) => <div data-testid="fade-in">{children}</div>,
 }));
 
