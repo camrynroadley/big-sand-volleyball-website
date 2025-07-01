@@ -37,7 +37,7 @@ export const Hero = () => {
         aria-label="Hero Section: Big Sand Volleyball Home Page"
         className="relative w-full h-screen bg-white flex items-center justify-center overflow-hidden tracking-tight"
       >
-                <motion.div
+        <motion.div
           style={{ y: yText, opacity: opacityText }}
           className="relative z-10 bg-black text-white rounded-3xl px-8 py-12 w-full max-w-xs md:max-w-xl mx-auto"
           data-testid="hero-container"
