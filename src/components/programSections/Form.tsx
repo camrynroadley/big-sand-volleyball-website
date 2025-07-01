@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 // import ReCAPTCHA from "react-google-recaptcha";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +10,7 @@ import {
   RegistrationSchema,
 } from "./helpers/registrationSchema";
 import { Loader2, CheckCircle } from "lucide-react";
-import { Program } from "../../types/app";
+import { FormInput, Program } from "../../types/app";
 
 interface FormProps {
   program: Program;
@@ -66,8 +67,9 @@ export const Form = ({ program }: FormProps) => {
       } else {
         setStatus(result.error || "Something went wrong.");
       }
-    } catch (error) {
+    } catch (err: any) {
       setStatus("Submission failed. Please try again.");
+      console.error("ProgramSections::Form::Error during form submission: ", err)
     } finally {
       setLoading(false);
     }
@@ -90,7 +92,7 @@ export const Form = ({ program }: FormProps) => {
         className="space-y-6 max-w-3xl mx-auto"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {signUpFormContent.map((input) => {
+          {signUpFormContent.map((input: FormInput) => {
             const isTextarea = input.type === "textarea";
             const isSelect = input.type === "select";
             const isCheckboxGroup = input.type === "checkbox-group";

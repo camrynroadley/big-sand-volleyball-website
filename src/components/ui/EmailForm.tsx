@@ -1,47 +1,59 @@
-'use client';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { CheckCircle } from 'lucide-react';
-import { EmailFormData } from '../../types/app';
+"use client";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { CheckCircle } from "lucide-react";
+import { EmailFormData } from "../../types/app";
 
 interface EmailFormProps {
-  formClassName?: string,
-  inputClassName?: string,
-  buttonClassName?: string,
+  formClassName?: string;
+  inputClassName?: string;
+  buttonClassName?: string;
   notificationClassName?: string;
   spinnerClassName?: string;
 }
 
-export const EmailForm = ({ formClassName, inputClassName, buttonClassName, notificationClassName, spinnerClassName }: EmailFormProps) => {
+export const EmailForm = ({
+  formClassName,
+  inputClassName,
+  buttonClassName,
+  notificationClassName,
+  spinnerClassName,
+}: EmailFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<EmailFormData>();
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
   const onSubmit = async (data: EmailFormData) => {
-    setStatus('');
+    setStatus("");
     setShowSuccess(false);
 
-    const res = await fetch('/api/subscription', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    // Honeypot trigger
+    if (data.nickname) {
+      setStatus("Submission rejected.");
+      return;
+    }
+
+    const res = await fetch("/api/subscription", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
 
     const result = await res.json();
 
     if (res.ok) {
-      setStatus('');
+      setStatus("");
       setShowSuccess(true);
       reset();
       setTimeout(() => setShowSuccess(false), 5000);
     } else {
-      setStatus(result.error || 'Something went wrong.');
-      setTimeout(() => setStatus(''), 5000);
+      setStatus(result.error || "Something went wrong.");
+      setTimeout(() => setStatus(""), 5000);
     }
   };
 
@@ -51,14 +63,23 @@ export const EmailForm = ({ formClassName, inputClassName, buttonClassName, noti
         onSubmit={handleSubmit(onSubmit)}
         className={`flex items-center rounded-full overflow-hidden ${formClassName}`}
       >
+        {/* Honeypot for security */}
+        <input
+          type="text"
+          {...register("nickname")}
+          className="hidden"
+          autoComplete="off"
+          tabIndex={-1}
+          aria-hidden="true"
+        />
         <input
           type="email"
           placeholder="Your email address"
-          {...register('email', {
-            required: 'Email is required',
+          {...register("email", {
+            required: "Email is required",
             pattern: {
               value: /^\S+@\S+$/i,
-              message: 'Invalid email',
+              message: "Invalid email",
             },
           })}
           className={`flex-1 px-4 py-2 text-xs focus:outline-none ${inputClassName}`}
@@ -90,7 +111,7 @@ export const EmailForm = ({ formClassName, inputClassName, buttonClassName, noti
               ></path>
             </svg>
           ) : (
-            'Sign up'
+            "Sign up"
           )}
         </button>
       </form>
@@ -99,14 +120,18 @@ export const EmailForm = ({ formClassName, inputClassName, buttonClassName, noti
       {showSuccess && (
         <div className="mt-4 mx-auto flex items-center gap-2 rounded-lg border border-green-500 bg-green-100 px-4 py-2 text-xs text-green-700 shadow-md w-fit">
           <CheckCircle className="w-4 h-4 text-green-600" />
-          <span>Thanks for signing up for the Big Sand Volleyball Club mailing list</span>
+          <span>
+            Thanks for signing up for the Big Sand Volleyball Club mailing list
+          </span>
         </div>
       )}
 
       {/* Fallback message (non-form error) */}
       {!showSuccess && status && !errors.email && (
-        <p className={`mt-2 text-xs text-center ${notificationClassName}`}>{status}</p>
+        <p className={`mt-2 text-xs text-center ${notificationClassName}`}>
+          {status}
+        </p>
       )}
     </div>
   );
-}
+};
