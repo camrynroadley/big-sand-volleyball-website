@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 // import ReCAPTCHA from "react-google-recaptcha";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpFormContent } from "./helpers/signUpFormContent";
+import { formContent } from "./helpers/formContent";
 import {
   registrationSchema,
   RegistrationSchema,
@@ -92,7 +92,7 @@ export const Form = ({ program }: FormProps) => {
         className="space-y-6 max-w-3xl mx-auto"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {signUpFormContent.map((input: FormInput) => {
+          {formContent.map((input: FormInput) => {
             const isTextarea = input.type === "textarea";
             const isSelect = input.type === "select";
             const isCheckboxGroup = input.type === "checkbox-group";

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { Form } from "../../../src/components/programSections/Form";
-import { signUpFormContent } from "../../../src/components/programSections/helpers/signUpFormContent";
+import { formContent } from "../../../src/components/programSections/helpers/formContent";
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -28,7 +28,7 @@ describe("Form", () => {
   it("renders all visible form inputs", () => {
     render(<Form program={mockProgram} />);
 
-    signUpFormContent.forEach((field) => {
+    formContent.forEach((field) => {
       if (field.type !== "checkbox") {
         expect(screen.getByLabelText(field.label)).toBeInTheDocument();
       } else {
