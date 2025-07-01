@@ -11,8 +11,13 @@ const nextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; img-src 'self' https: data:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'",
+            value: `
+          default-src 'self';
+          script-src 'self' https://www.google.com https://www.gstatic.com 'unsafe-inline';
+          frame-src https://www.google.com;
+          style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+          object-src 'none';
+        `.replace(/\n/g, ""),
           },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },

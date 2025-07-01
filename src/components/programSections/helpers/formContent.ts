@@ -72,7 +72,7 @@ export const formContent: FormInput[] = [
   },
   {
     id: "agree_to_privacy",
-    label: "I agree to the collection of this information",
+    label: "I agree to the collection of this information *",
     type: "checkbox",
     error: "You must agree to the privacy policy to continue.",
     required: true,
