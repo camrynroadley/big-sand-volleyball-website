@@ -7,7 +7,6 @@ export const registrationSchema = z.object({
   parent_1_last_name: z.string().min(1, "Required"),
   parent_1_phone: z.string().min(1, "Required"),
   parent_1_email: z.string().email("Invalid email"),
-
   parent_2_first_name: z.string().optional(),
   parent_2_last_name: z.string().optional(),
   parent_2_phone: z.string().optional(),
@@ -17,11 +16,9 @@ export const registrationSchema = z.object({
     .refine((val) => !val || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), {
       message: "Invalid email",
     }),
-
   grade: z.string().min(1, "Required"),
   school: z.string().optional(),
   shirt_size: z.string().optional(),
-
   agree_to_privacy: z
     .boolean({
       required_error: "You must agree to the privacy policy to continue.",
@@ -29,10 +26,17 @@ export const registrationSchema = z.object({
     .refine((val) => val === true, {
       message: "You must agree to the privacy policy to continue.",
     }),
-
   agree_to_photos: z.boolean().optional(),
-
   sessions: z.array(z.string()).min(1, "Please select at least one session."),
 });
 
+// Add frontend-only fields
+export const extendedFormSchema = registrationSchema.extend({
+  recaptcha: z.string().min(1, "Please complete the ReCAPTCHA"),
+  nickname: z.string().optional(), // honeypot, not required
+});
+
+// Export separate types
 export type RegistrationSchema = z.infer<typeof registrationSchema>;
+export type SignUpFormData = z.infer<typeof extendedFormSchema>;
+

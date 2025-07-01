@@ -1,16 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formContent } from "./helpers/formContent";
 import {
-  registrationSchema,
-  RegistrationSchema,
+  extendedFormSchema,
+  SignUpFormData,
 } from "./helpers/registrationSchema";
 import { Loader2, CheckCircle } from "lucide-react";
 import { FormInput, Program } from "../../types/app";
+import { BlurText } from "../ui/BlurText";
+import { FadeInOnScroll } from "../ui/FadeInOnScroll";
 
 interface FormProps {
   program: Program;
@@ -24,16 +27,25 @@ export const Form = ({ program }: FormProps) => {
     reset,
     watch,
     formState: { errors },
-  } = useForm<RegistrationSchema>({
-    resolver: zodResolver(registrationSchema),
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(extendedFormSchema),
     mode: "all",
+    defaultValues: {
+      recaptcha: "",
+    },
   });
 
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const onSubmit = async (data: RegistrationSchema) => {
+  const onSubmit = async (data: SignUpFormData) => {
+    // Honeypot trigger
+    if (data.nickname) {
+      setStatus("Submission rejected.");
+      return;
+    }
+
     if (!data.sessions || data.sessions.length === 0) {
       setStatus("Please select at least one session.");
       return;
@@ -43,11 +55,12 @@ export const Form = ({ program }: FormProps) => {
     setStatus("");
     setShowSuccess(false);
 
+    const { recaptcha, nickname, ...dbPayload } = data;
+
     const formData = {
-      ...data,
+      ...dbPayload,
       program_slug: program.slug ?? "test",
     };
-
     try {
       const res = await fetch("/api/registration", {
         method: "POST",
@@ -63,13 +76,16 @@ export const Form = ({ program }: FormProps) => {
         setStatus(SUCCESS_STATUS);
         setShowSuccess(true);
         reset();
-        setTimeout(() => setShowSuccess(false), 5000);
+        setTimeout(() => {
+          setShowSuccess(false);
+          setStatus("");
+        }, 8000);
       } else {
         setStatus(result.error || "Something went wrong.");
       }
     } catch (err: any) {
       setStatus("Submission failed. Please try again.");
-      console.error("ProgramSections::Form::Error during form submission: ", err)
+      console.error("ProgramSections::Form::Error during form submission");
     } finally {
       setLoading(false);
     }
@@ -77,20 +93,39 @@ export const Form = ({ program }: FormProps) => {
 
   return (
     <section className="bg-[#f5f5f5] py-16 px-4">
-      <p className="text-[#DF0000] text-sm font-semibold text-center">
-        Ready to join?
-      </p>
-      <h2 className="text-5xl font-semibold text-black mb-4 text-center">
-        Sign up now
-      </h2>
-      <p className="text-sm text-center mb-8">
-        <i>* indicates a required field</i>
-      </p>
+      <FadeInOnScroll>
+        <p className="text-[#DF0000] text-sm font-semibold text-center">
+          Ready to join?
+        </p>
+      </FadeInOnScroll>
+      <div className="w-full max-w-xl mx-auto text-center">
+        <BlurText
+          text="Sign up now"
+          delay={100}
+          animateBy="words"
+          direction="top"
+          className="text-5xl font-semibold text-black mb-4 text-center justify-center"
+        />
+      </div>
+      <FadeInOnScroll>
+        <p className="text-sm text-center mb-8">
+          <i>* indicates a required field</i>
+        </p>
+      </FadeInOnScroll>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6 max-w-3xl mx-auto"
       >
+        {/* Honeypot for security */}
+        <input
+          type="text"
+          {...register("nickname")}
+          className="hidden"
+          autoComplete="off"
+          tabIndex={-1}
+          aria-hidden="true"
+        />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {formContent.map((input: FormInput) => {
             const isTextarea = input.type === "textarea";
@@ -201,7 +236,7 @@ export const Form = ({ program }: FormProps) => {
           {program.sessions.length > 1 && (
             <div className="md:col-span-2">
               <label className="block mb-1 font-medium text-sm">
-                Sessions:
+                Sessions: *
               </label>
               <div className="flex flex-wrap gap-4">
                 {program.sessions.map((session) => (
@@ -244,6 +279,11 @@ export const Form = ({ program }: FormProps) => {
             </div>
           )}
         </div>
+        <ReCAPTCHA
+          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+          onChange={(token) => setValue("recaptcha", token || "")}
+          className="mt-6"
+        />
         <button
           type="submit"
           disabled={loading}
@@ -260,7 +300,7 @@ export const Form = ({ program }: FormProps) => {
       </form>
 
       {showSuccess && (
-        <div className="mt-6 max-w-3xl mx-auto flex items-center gap-2 bg-green-100 text-green-800 p-3 rounded">
+        <div className="mt-6 max-w-3xl mx-auto flex items-center gap-2 bg-green-200 text-green-800 p-3 rounded">
           <CheckCircle className="h-5 w-5" />
           <span>{status}</span>
         </div>

@@ -26,6 +26,24 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
+    const recaptcha = body?.recaptcha;
+    const response = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptcha}`,
+      }
+    );
+
+    const verification = await response.json();
+    if (!verification.success) {
+      return NextResponse.json(
+        { error: "ReCAPTCHA verification failed" },
+        { status: 400 }
+      );
+    }
+
     const parsed = registrationSchema.safeParse(body);
 
     if (!parsed.success) {

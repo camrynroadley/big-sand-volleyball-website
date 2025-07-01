@@ -1,4 +1,4 @@
-import { RegistrationSchema } from "@/components/programSections/helpers/registrationSchema";
+import { SignUpFormData } from "@/components/programSections/helpers/registrationSchema";
 
 export interface Session {
   id: number;
@@ -28,7 +28,7 @@ export interface Coach {
 }
 
 export interface FormInput {
- id: keyof RegistrationSchema;
+  id: keyof SignUpFormData;
   label: string;
   error?: string;
   type?:
@@ -61,6 +61,7 @@ export interface SignUpFormData {
   shirt_size?: string;
   agree_to_privacy: boolean;
   agree_to_photos: boolean;
+  nickname?: string; // honeypot field
 }
 
 export interface EmailFormData {
