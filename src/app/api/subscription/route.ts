@@ -14,9 +14,9 @@ export async function POST(request: Request) {
     request.headers.get("x-real-ip") ||
     "unknown";
 
-  // NP Rate limit: 5 requests per 60 seconds
-  const isRateLimited = rateLimit(ip, 5, 60_000);
-  if (isRateLimited) {
+  const limited = await rateLimit(ip, 5, 60_000); // 5 requests per 60 seconds
+
+  if (limited) {
     return NextResponse.json(
       { error: "Too many requests. Please try again later." },
       { status: 429 }

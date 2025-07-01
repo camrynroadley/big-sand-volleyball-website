@@ -1,39 +1,39 @@
-"use client";
-import Head from "next/head";
-import { usePrograms } from "@/context/ProgramContext";
-import { Program } from "../../../types/app";
-import { Hero } from "@/components/programSections/Hero";
-import { Form } from "@/components/programSections/Form";
-import { Information } from "@/components/programSections/Information";
-import { useParams } from "next/navigation";
+import { ProgramContent } from "./ProgramContent";
+import { supabaseAdmin } from "../../../utils/supabase/admin";
 
-const ProgramPage = () => {
-  const params = useParams();
-  const programs: Program[] | undefined = usePrograms();
+export async function generateStaticParams() {
+  const { data } = await supabaseAdmin
+    .from("big_sand_programs")
+    .select("slug");
+  return (data || []).map((p) => ({ slug: p.slug }));
+}
 
-  let programData: Program | undefined;
-  // Find corresponding data
-  if (programs) {
-    programData = programs.find((program) => program.slug === params.slug);
-  }
-
-  return (
-    <>
-      <Head>
-        <title>Contact | Big Sand Volleyball Club</title>
-        <meta name="description" content="Contact information for our club" />
-      </Head>
-      <main role="main" aria-label={`${programData?.title} Program Page`}>
-        {programData && (
-          <>
-            <Hero program={programData} />
-            <Information program={programData} />
-            <Form program={programData} />
-          </>
-        )}
-      </main>
-    </>
-  );
+export const metadata = {
+  title: "Programs | Big Sand Volleyball Club",
+  description: "Program information for our club",
+  openGraph: {
+    title: "Programs | Big Sand Volleyball Club",
+    description: "Program information for our club",
+    url: "https://bigsandvolleyball.com/contact",
+    siteName: "Big Sand Volleyball Club",
+    images: [
+      {
+        url: "/og_image.jpg",
+        width: 400,
+        height: 530,
+        alt: "Big Sand Volleyball",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Programs | Big Sand Volleyball Club",
+    description: "program information for our club",
+    images: ["/og-image.jpg"],
+  },
 };
 
-export default ProgramPage;
+export default function ProgramPage() {
+  return <ProgramContent />;
+}
