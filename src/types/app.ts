@@ -43,27 +43,6 @@ export interface FormInput {
   required?: boolean;
 }
 
-export interface SignUpFormData {
-  program_slug: string;
-  child_first_name: string;
-  child_last_name: string;
-  parent_1_first_name: string;
-  parent_1_last_name: string;
-  parent_1_email: string;
-  parent_1_phone: string;
-  parent_2_first_name?: string;
-  parent_2_last_name?: string;
-  parent_2_email?: string;
-  parent_2_phone?: string;
-  grade: string;
-  school?: string;
-  sessions: string[];
-  shirt_size?: string;
-  agree_to_privacy: boolean;
-  agree_to_photos: boolean;
-  nickname?: string; // honeypot field
-}
-
 export interface EmailFormData {
   email: string;
   nickname?: string; // honeypot field
