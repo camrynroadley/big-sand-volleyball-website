@@ -12,12 +12,13 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value: `
-          default-src 'self';
-          script-src 'self' https://www.google.com https://www.gstatic.com 'unsafe-inline';
-          frame-src https://www.google.com;
-          style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
-          object-src 'none';
-        `.replace(/\n/g, ""),
+              default-src 'self';
+              script-src 'self' https://www.google.com https://www.gstatic.com 'unsafe-inline';
+              frame-src https://www.google.com;
+              connect-src 'self' https://www.google.com https://www.gstatic.com;
+              style-src 'self' https://fonts.googleapis.com 'unsafe-inline';
+              object-src 'none';
+            `.replace(/\n/g, ""),
           },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },

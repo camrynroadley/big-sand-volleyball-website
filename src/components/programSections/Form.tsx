@@ -35,20 +35,28 @@ export const Form = ({ program }: FormProps) => {
     },
   });
 
-  console.log("Form::RECAPTCHA public site key:", process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+  if (process.env.NODE_ENV !== "production") {
+    console.log(
+      "ProgramSections::Form::RECAPTCHA public site key:",
+      process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+    );
+  }
 
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const onSubmit = async (data: SignUpFormData) => {
+    console.log("ProgramSections::Form::onSubmit");
     // Honeypot trigger
     if (data.nickname) {
+      console.log("ProgramSections::Form::Honey Pot Rejection");
       setStatus("Submission rejected.");
       return;
     }
 
     if (!data.sessions || data.sessions.length === 0) {
+      console.log("ProgramSections::Form::Session Selection Missing");
       setStatus("Please select at least one session.");
       return;
     }
@@ -57,13 +65,13 @@ export const Form = ({ program }: FormProps) => {
     setStatus("");
     setShowSuccess(false);
 
-    const { recaptcha, nickname, ...dbPayload } = data;
-
     const formData = {
-      ...dbPayload,
+      ...data,
       program_slug: program.slug ?? "test",
     };
+
     try {
+      console.log("ProgramSections::Form::Starting API request...");
       const res = await fetch("/api/registration", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -73,6 +81,7 @@ export const Form = ({ program }: FormProps) => {
       const result = await res.json();
 
       if (res.ok) {
+        console.log("ProgramSections::Form::Successful API response...");
         const SUCCESS_STATUS =
           "Thank you for signing up! Please check your email for a confirmation. We will reach out to you with additional information and payment instructions.";
         setStatus(SUCCESS_STATUS);
