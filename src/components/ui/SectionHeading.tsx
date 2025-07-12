@@ -30,7 +30,7 @@ export const SectionHeading = ({ id, label, title, description }: SectionHeading
         />
       </div>
       <FadeInOnScroll>
-        <div className="text-right text-base text-gray-700">
+        <div className="text-right text-base font-medium text-gray-700">
           <p>{description}</p>
         </div>
       </FadeInOnScroll>

@@ -47,17 +47,17 @@ export const Values = () => {
                   aria-labelledby={titleId}
                   className="focus:outline-none"
                 >
-                  <CardBody className="flex flex-col justify-between bg-white relative group/card border-black/[0.1] w-auto sm:w-[30rem] rounded-xl p-6 border text-center h-full">
+                  <CardBody className="h-full min-h-[10rem] flex flex-col justify-between bg-white relative group/card border-black/[0.1] w-auto sm:w-[30rem] rounded-xl p-6 border text-center h-full">
                     <CardItem
                       id={titleId}
-                      translateZ="50"
+                      translateZ={50}
                       className="text-base font-semibold text-black mx-auto"
                     >
                       {value.name}
                     </CardItem>
                     <CardItem
                       as="p"
-                      translateZ="60"
+                      translateZ={60}
                       className="text-black text-sm max-w-sm mt-2"
                     >
                       {value.description}

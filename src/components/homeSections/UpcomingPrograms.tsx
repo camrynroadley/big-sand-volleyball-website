@@ -17,7 +17,7 @@ export const UpcomingPrograms = () => {
           label="UPCOMING PROGRAMS"
           title="Level up your game"
           description="Check back regularly for new programs and sessions.
-              If a session is full, you may sign-up for the waitlist, which will also register you for the mailing list."
+              If a session is full, you may sign-up for the waitlist."
         />
         <FadeInOnScroll delay={0.4}>
           <div className="flex justify-center">

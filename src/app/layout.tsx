@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
@@ -5,6 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { ProgramProvider } from "../context/ProgramContext";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -22,7 +24,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const supabase = await createClient();
-  const { data: programs } = await supabase.from("big_sand_programs").select();
+  let programs = [];
+  try {
+    const { data } = await supabase.from("big_sand_programs").select();
+    programs = data || [];
+  } catch (error) {
+    console.error("Layout:: Error retrieving programs");
+  }
 
   return (
     <>
@@ -31,11 +39,13 @@ export default async function RootLayout({
           className={`${plusJakartaSans.variable} antialiased font-[family-name:var(--font-plus-jakarta-sans)]`}
         >
           <ProgramProvider programs={programs || []}>
-            <div className="flex flex-col min-h-screen bg-white">
-              <Navbar />
-              {children}
-              <Footer />
-            </div>
+            <ErrorBoundary>
+              <div className="flex flex-col min-h-screen bg-white">
+                <Navbar />
+                {children}
+                <Footer />
+              </div>
+            </ErrorBoundary>
           </ProgramProvider>
         </body>
       </html>

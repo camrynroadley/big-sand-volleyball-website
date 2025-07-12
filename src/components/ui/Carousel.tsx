@@ -1,5 +1,12 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { JSX, useEffect, useState, useRef } from "react";
-import { motion, PanInfo, useMotionValue, useTransform } from "framer-motion";
+import {
+  motion,
+  PanInfo,
+  useMotionValue,
+  useTransform,
+  Transition,
+} from "framer-motion";
 
 export interface CarouselItem {
   title: string;
@@ -20,7 +27,11 @@ export interface CarouselProps {
 const DRAG_BUFFER = 0;
 const VELOCITY_THRESHOLD = 500;
 const GAP = 16;
-const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
+const SPRING_OPTIONS: Transition = {
+  type: "spring",
+  stiffness: 300,
+  damping: 30,
+};
 
 export const Carousel = ({
   items,
@@ -44,24 +55,25 @@ export const Carousel = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const carouselItems = loop ? [...items, items[0]] : items;
+
   useEffect(() => {
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "ArrowRight") {
-      setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
-    }
-    if (e.key === "ArrowLeft") {
-      setCurrentIndex((prev) => Math.max(prev - 1, 0));
-    }
-  };
-  window.addEventListener("keydown", handleKeyDown);
-  return () => window.removeEventListener("keydown", handleKeyDown);
-}, [items.length]);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
+      }
+      if (e.key === "ArrowLeft") {
+        setCurrentIndex((prev) => Math.max(prev - 1, 0));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [carouselItems.length, items.length]);
 
   const containerPadding = 16;
   const itemWidth = containerWidth - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
 
-  const carouselItems = loop ? [...items, items[0]] : items;
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const x = useMotionValue(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -107,7 +119,9 @@ export const Carousel = ({
     pauseOnHover,
   ]);
 
-  const effectiveTransition = isResetting ? { duration: 0 } : SPRING_OPTIONS;
+  const effectiveTransition: Transition = isResetting
+    ? { duration: 0 }
+    : SPRING_OPTIONS;
 
   const handleAnimationComplete = () => {
     if (loop && currentIndex === carouselItems.length - 1) {

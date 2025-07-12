@@ -1,6 +1,6 @@
 import { FormInput } from "../../../types/app";
 
-export const signUpFormContent: FormInput[] = [
+export const formContent: FormInput[] = [
   {
     id: "child_first_name",
     label: "Child First Name *",

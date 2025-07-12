@@ -12,8 +12,7 @@ export const Information = () => {
           <div className="text-right text-base text-gray-700">
             <p>
               Check back regularly for new programs and sessions. If a session
-              is full, you may sign-up for the waitlist, which will also
-              register you for the mailing list.
+              is full, you may sign-up for the waitlist.
             </p>
           </div>
         </div>
