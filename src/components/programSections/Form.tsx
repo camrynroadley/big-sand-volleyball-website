@@ -35,13 +35,6 @@ export const Form = ({ program }: FormProps) => {
     },
   });
 
-  if (process.env.NODE_ENV !== "production") {
-    console.log(
-      "ProgramSections::Form::RECAPTCHA public site key:",
-      process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-    );
-  }
-
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
