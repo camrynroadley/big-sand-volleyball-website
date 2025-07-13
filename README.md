@@ -1,8 +1,16 @@
 # Big Sand Volleyball Club Website
 
-A modern, secure, and accessible website for **Big Sand Volleyball Club**, built with the **Next.js App Router**, React, Tailwind CSS, and TypeScript. The site enables users to browse \*\*programs \*\* and register via dynamic **forms.**
+![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat&logo=next.js&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat&logo=redis&logoColor=white)
 
-Hosted on **Vercel**, with **Supabase** as the backend database, and **Upstash Redis** for rate limiting. This project demonstrates end-to-end typing, security practices, and production-grade performance.
+
+A modern, secure, and accessible website for **Big Sand Volleyball Club**, built with the **Next.js App Router**, React, Tailwind CSS, and TypeScript. The site enables users to browse **programs** and register via dynamic **forms**.
+
+Hosted on **Vercel**, with **Supabase** as the backend database, **Upstash Redis** for rate limiting, **Resend** for email notifications, and the **Google Sheets API** for real-time admin access to registrations. This project demonstrates end-to-end typing, security practices, and production-grade performance.
 
 ---
 
@@ -12,14 +20,16 @@ Hosted on **Vercel**, with **Supabase** as the backend database, and **Upstash R
 
 ---
 
-## 📕 Tech Stack
+## 📕 Tech Stack
 
 - **Framework**: Next.js (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS, Framer Motion, Aceternity UI
 - **Forms**: react-hook-form + Zod for validation
-- **Backend**: Supabase (PostgreSQL), server-side data fetching
+- **Backend**: Supabase (PostgreSQL)
 - **Rate Limiting**: Upstash Redis (IP-based)
+- **Email Notifications**: Resend
+- **Admin View**: Google Sheets API
 - **Security**: Google reCAPTCHA, Honeypot fields, Supabase service role key (server only)
 - **Testing**: Jest, React Testing Library
 - **Deployment**: Vercel (Preview + Production environments)
@@ -33,7 +43,7 @@ Hosted on **Vercel**, with **Supabase** as the backend database, and **Upstash R
 
 ```ts
 src/
-  api/            // Server-side routes for Supabase, reCAPTCHA
+  api/            // Server-side routes for Supabase, Google Sheets, Resend, reCAPTCHA
   app/            // App Router structure (layouts, pages, routing)
   components/     // Reusable and page-specific UI components
   context/        // Shared React context (e.g. programs)
@@ -50,6 +60,7 @@ src/
 4. **Accessibility-First**: ARIA labels, field error messages
 5. **Animations**: Scroll and transition animations using Framer Motion
 6. **Security by Design**: All public APIs are protected with reCAPTCHA, honeypot, and Redis-based rate limiting
+7. **Integration-Ready**: Email alerts via Resend and real-time Google Sheets
 
 ---
 
@@ -64,6 +75,8 @@ src/
      - Honeypot anti-spam input
      - IP-based rate limiting (Upstash Redis)
      - Secure server-side Supabase insert using service role key
+     - Email notification to admin via Resend
+     - Sync to Google Sheets for non-technical admin access
      - Success/error feedback with animations
 
 ---
@@ -86,6 +99,8 @@ src/
 4. **Form Integrity**: All form data re-validated with Zod on the server
 5. **Secure Headers**: `Content-Security-Policy`, `Strict-Transport-Security`, `Referrer-Policy`
 6. **HTTPS**: Enforced by Vercel and Supabase
+7. **Email Security**: Resend sender domain is verified and protected by SPF/DKIM
+8. **Google Sheets API**: Uses a private service account
 
 ---
 
@@ -99,6 +114,8 @@ src/
    - Re-validates input with Zod
    - Applies Redis-based rate limiting
    - Inserts into Supabase using a server-only key
+   - Sends an email notification via Resend
+   - Appends the submission to a Google Sheet using the Sheets API
 5. User receives success or error response
 
 ---
@@ -117,8 +134,6 @@ src/
 
 ## 🚀 Remaining Work / Future Improvements
 
-- Email notifications via Resend on new sign-ups
-- Google Sheets syncing (client is non-technical and would prefer to view via Google Sheets)
 - Performance improvements through image optimization, lazy loading, code splitting
 - End-to-end tests using Cypress
 - Improved unit test coverage
