@@ -66,8 +66,10 @@ export const formContent: FormInput[] = [
   { id: "school", label: "School", type: "text" },
   {
     id: "shirt_size",
-    label: "T-Shirt Size (Women's)",
+    label: "T-Shirt Size (Women's) *",
     type: "select",
+    error: "Required",
+    required: true,
     options: ["XS", "SM", "MD", "LG", "XL", "Other"],
   },
   {
